@@ -22,9 +22,9 @@ recipefilename = "recipe.txt"
 # Typically the stack will be <soluton_files>/ServiceModules/Assembly/ShoestringAssembler/SMDownloader.py
 solution_files = Path(__file__).parents[3]
 
-# Look for a recipe 
+# Look for a recipe
 with solution_files.joinpath(Path(recipefilename)).open(mode='r') as recipefile:
-        
+
     for line in recipefile:
 
         # Force reset
@@ -38,16 +38,16 @@ with solution_files.joinpath(Path(recipefilename)).open(mode='r') as recipefile:
         line = line.split("=")
         line[-1] = line[-1].split("\n")[0]     # remove trailing newline from last item
 
-        # Associate names 
+        # Associate names
         SMName = line[0]
         branchname = line[1]
 
         # Attempt to action recipe line
         if SMName in SMURLs:
             url = SMURLs[SMName]
-            download_to = solution_files.joinpath(Path("ServiceModules/" + SMName))
+            download_to = str(solution_files.joinpath(Path("ServiceModules/" + SMName)))
             print("Downloading", SMName, "branch", branchname, "from", url, "to", download_to)
-            os.system("git clone " + url + " -b " + branchname + download_to)
+            os.system("git clone " + url + " -b " + branchname + " " + download_to)
 
 
         else:
