@@ -6,6 +6,7 @@
 
 # standard imports
 import os
+from pathlib import Path
 
 # installed imports
 #import git # pip install GitPython
@@ -17,7 +18,8 @@ from mirrordirector import ServiceModuleURLs as SMURLs
 
 recipefilename = "recipe.txt"
 
-with open(recipefilename, "r") as recipefile:
+with Path(__file__).joinpath(Path("../../../" + recipefilename)).open(mode='r') as recipefile:
+#with open(recipefilename, "r") as recipefile:
         
     for line in recipefile:
 
