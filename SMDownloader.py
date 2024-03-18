@@ -39,9 +39,9 @@ with open(recipefilename, "r") as recipefile:
         # Attempt to action recipe line
         if SMName in SMURLs:
             url = SMURLs[SMName]
-            #git.repo.clone_from(url, 'ServiceModules', branch=branchname)
+            print("Downloading", SMName, "branch", branchname, "from", url)
+            git.repo.clone_from(url, 'ServiceModules', branch=branchname)
 
-            print(SMName, url, branchname)
 
         else:
             print("Assembler Error: no Servie Module URL defined for line in recipe", line)
