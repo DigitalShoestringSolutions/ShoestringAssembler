@@ -18,8 +18,8 @@ from mirrordirector import ServiceModuleURLs as SMURLs
 
 recipefilename = "recipe.txt"
 
-with Path(__file__).joinpath(Path("../../../" + recipefilename)).open(mode='r') as recipefile:
-#with open(recipefilename, "r") as recipefile:
+# Look for a recipe file 3 levels higher than this script and open
+with Path(__file__).parents[3].joinpath(Path(recipefilename)).open(mode='r') as recipefile:
         
     for line in recipefile:
 
