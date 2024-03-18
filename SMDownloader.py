@@ -18,8 +18,12 @@ from mirrordirector import ServiceModuleURLs as SMURLs
 
 recipefilename = "recipe.txt"
 
-# Look for a recipe file 3 levels higher than this script and open
-with Path(__file__).parents[3].joinpath(Path(recipefilename)).open(mode='r') as recipefile:
+# Define the solution files folder as 3 levels above this script.
+# Typically the stack will be <soluton_files>/ServiceModules/Assembly/ShoestringAssembler/SMDownloader.py
+solution_files = Path(__file__).parents[3]
+
+# Look for a recipe 
+with solution_files.joinpath(Path(recipefilename)).open(mode='r') as recipefile:
         
     for line in recipefile:
 
@@ -41,10 +45,9 @@ with Path(__file__).parents[3].joinpath(Path(recipefilename)).open(mode='r') as 
         # Attempt to action recipe line
         if SMName in SMURLs:
             url = SMURLs[SMName]
-            print(os.getcwd())
-            print("Downloading", SMName, "branch", branchname, "from", url)
-            #git.repo.clone_from(url, 'ServiceModules', branch=branchname)
-            os.system("git clone " + url + " -b " + branchname)
+            download_to = solution_files.joinpath(Path("ServiceModules/" + SMName))
+            print("Downloading", SMName, "branch", branchname, "from", url, "to", download_to)
+            os.system("git clone " + url + " -b " + branchname + download_to)
 
 
         else:
