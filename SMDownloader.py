@@ -5,10 +5,10 @@
 ## -- Imports ---------------------------------------------------------------------
 
 # standard imports
-# none
+import os
 
 # installed imports
-import git # pip install GitPython
+#import git # pip install GitPython
 
 # Local imports
 from mirrordirector import ServiceModuleURLs as SMURLs
@@ -39,8 +39,10 @@ with open(recipefilename, "r") as recipefile:
         # Attempt to action recipe line
         if SMName in SMURLs:
             url = SMURLs[SMName]
+            print(os.getcwd())
             print("Downloading", SMName, "branch", branchname, "from", url)
-            git.repo.clone_from(url, 'ServiceModules', branch=branchname)
+            #git.repo.clone_from(url, 'ServiceModules', branch=branchname)
+            os.system("git clone " + url + " -b " + branchname)
 
 
         else:
