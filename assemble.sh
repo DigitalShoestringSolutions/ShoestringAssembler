@@ -6,4 +6,4 @@
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
 # Download Service Modules into <solutionfiles>/ServiceModules
-python3 $SCRIPT_DIR/SMdownloader.py
+python3 $SCRIPT_DIR/SMDownloader.py
