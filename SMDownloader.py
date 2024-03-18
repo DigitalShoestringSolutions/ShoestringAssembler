@@ -9,7 +9,7 @@ import os
 from pathlib import Path
 
 # installed imports
-#import git # pip install GitPython
+#none
 
 # Local imports
 from mirrordirector import ServiceModuleURLs as SMURLs
@@ -45,7 +45,7 @@ with solution_files.joinpath(Path(recipefilename)).open(mode='r') as recipefile:
         # Attempt to action recipe line
         if SMName in SMURLs:
             url = SMURLs[SMName]
-            download_to = str(solution_files.joinpath(Path("ServiceModules/" + SMName)))
+            download_to = str(solution_files.joinpath("ServiceModules/" + SMName))
             print("Downloading", SMName, "branch", branchname, "from", url, "to", download_to)
             os.system("git clone " + url + " -b " + branchname + " " + download_to)
 
