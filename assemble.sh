@@ -7,3 +7,6 @@ SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
 # Download Service Modules into <solutionfiles>/ServiceModules
 python3 $SCRIPT_DIR/SMDownloader.py
+
+# Generate a docker-compose file at <solutionfiles>
+python3 $SCRIPT_DIR/include_docker_composes.py
