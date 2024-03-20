@@ -46,6 +46,8 @@ with solution_files.joinpath(Path(recipefilename)).open(mode='r') as recipefile:
         if SMName in SMURLs:
             url = SMURLs[SMName]
             download_to = str(solution_files.joinpath("ServiceModules/" + SMName))
+
+            print()
             print("Downloading", SMName, "branch", branchname, "from", url, "to", download_to)
             os.system("git clone " + url + " -b " + branchname + " " + download_to)
 
