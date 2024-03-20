@@ -10,6 +10,8 @@ ServiceModuleURLs = {
     "Grafana"       : "https://github.com/DigitalShoestringSolutions/sm_grafana_ui",
     "MQTT"          : "https://github.com/DigitalShoestringSolutions/sm_mqtt_broker",
     "Timeseries"    : "https://github.com/DigitalShoestringSolutions/sm_timeseries_db",
-    "Sensing"       : "https://github.com/DigitalShoestringSolutions/sm_SensingDC"
+
+    # temporary hack - use a branch of temperature in place of sm_sensing_dc, as the latter is still private
+    "Sensing"       : "https://github.com/DigitalShoestringSolutions/TemperatureMonitoringStarterSolution"
 
 }
