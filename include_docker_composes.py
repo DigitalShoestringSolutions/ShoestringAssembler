@@ -38,6 +38,8 @@ ServiceModulesDir = solution_files.joinpath("ServiceModules")
 ## -- iterate over service module folders -----------------------------------------
 
 sub_compose_files = []
+print()
+print("Searching for docker-compose.yml in Service Modules...")
 
 # What the below block should do:
 # for each servicemodulesdir in servicemoduledirs:
@@ -46,10 +48,11 @@ sub_compose_files = []
 
 for file in ServiceModulesDir.rglob('*'):
     if file.name in DOCKER_COMPOSE_FILE_NAMES:
-        print("found a compose file!")
         rel_path = file.relative_to(solution_files)
-        print(rel_path)
+        print("Including", rel_path, "in Solution docker-compose.yml")
         sub_compose_files.append(str(rel_path))
+
+print()
 
 ## --------------------------------------------------------------------------------
 
