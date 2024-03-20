@@ -73,6 +73,6 @@ with solution_files.joinpath(Path('docker-compose.yml')).open(mode='w') as maste
 
     # Add the shoestring-internal network declaration to the end of the master compose file:
     master_compose_file.write('\n')
-    master_compose_file.writelines(['networks:\n', '     internal:\n', '         name: shoestring-internal\n'])
+    master_compose_file.writelines(['networks:\n', '     internal:\n', '         name: shoestring-internal'])
 
 ## --------------------------------------------------------------------------------
