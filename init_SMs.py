@@ -3,8 +3,7 @@
 # Permits Service Modules to request code to be run immediately after download, before compiling
 # eg SetupLogging would like setup_logging.sh to be run straight away, 
 #       such that during docker compose logs are redirected
-# Currently supported files types are .sh
-# File types to add: .py
+# Currently supported files types are .sh and .py
 
 ## -- Imports ---------------------------------------------------------------------
 
@@ -32,9 +31,15 @@ print("Running Service Module init scripts...")
 ## -- iterate over service module folders -----------------------------------------
 
 for file in ServiceModulesDir.rglob('*'):
-    if file.name in ['init_SM.sh']:
+    #if file.name in ['init_SM.sh']:
+    if file.stem in ['init_SM']:
         print("    Running init script", file.relative_to(ServiceModulesDir))
-        os.system(str(file))    # full abs path
+        if file.suffix == '.sh':
+            os.system(str(file))
+        elif file.suffix == '.py':
+            with file.open(mode='r') as f:
+                # filthy but it works
+                exec(f.read())
 
 ## --------------------------------------------------------------------------------
         
