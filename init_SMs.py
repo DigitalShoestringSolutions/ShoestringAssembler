@@ -26,10 +26,16 @@ ServiceModulesDir = Path(__file__).parents[2] # Assuming this script is in Servi
 
 ## --------------------------------------------------------------------------------
 
+print()
+print("Running Service Module init scripts...")
+
 ## -- iterate over service module folders -----------------------------------------
 
 for file in ServiceModulesDir.rglob('*'):
     if file.name in ['init_SM.sh']:
+        print("    Running init script", file.relative_to(ServiceModulesDir))
         os.system(str(file))    # full abs path
 
 ## --------------------------------------------------------------------------------
+        
+print()
