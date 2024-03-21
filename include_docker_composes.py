@@ -25,7 +25,6 @@ from pathlib import Path
 
 ## -- Firm-coded settings ---------------------------------------------------------
 
-DOCKER_COMPOSE_VERSION = 'version: "2"'                                     # for inclusion in the master docker-compose.yml
 DOCKER_COMPOSE_FILE_NAMES = ['docker-compose.yml', 'docker-compose.yaml']   # for detecting sub compose files
 
 # Define the solution files folder as 3 levels above this script.
@@ -59,10 +58,6 @@ print()
 ## -- Create the master docker-compose.yml ----------------------------------------
 
 with solution_files.joinpath(Path('docker-compose.yml')).open(mode='w') as master_compose_file:
-
-    # Add version line to top of master compose file
-    master_compose_file.write(DOCKER_COMPOSE_VERSION + '\n')
-    master_compose_file.write('\n')
 
     # append include lines
     if len(sub_compose_files) > 0:
