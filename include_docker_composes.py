@@ -56,18 +56,19 @@ print()
 ## --------------------------------------------------------------------------------
 
 ## -- Create the master docker-compose.yml ----------------------------------------
+#  --     iff there are service modules using docker 
 
-with solution_files.joinpath(Path('docker-compose.yml')).open(mode='w') as master_compose_file:
+if len(sub_compose_files) > 0:
+    with solution_files.joinpath(Path('docker-compose.yml')).open(mode='w') as master_compose_file:
 
-    # append include lines
-    if len(sub_compose_files) > 0:
+        # append include lines
         master_compose_file.write('include:\n')
 
         for sub_compose_file in sub_compose_files:
             master_compose_file.write('    - ' + sub_compose_file + '\n')
 
-    # Add the shoestring-internal network declaration to the end of the master compose file:
-    master_compose_file.write('\n')
-    master_compose_file.writelines(['networks:\n', '     internal:\n', '         name: shoestring-internal'])
+        # Add the shoestring-internal network declaration to the end of the master compose file:
+        master_compose_file.write('\n')
+        master_compose_file.writelines(['networks:\n', '     internal:\n', '         name: shoestring-internal'])
 
 ## --------------------------------------------------------------------------------
