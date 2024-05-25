@@ -12,6 +12,6 @@ ServiceModuleURLs = {
     "Timeseries"    : "https://github.com/DigitalShoestringSolutions/sm_timeseries_db",
     "Telemetry"     : "https://github.com/DigitalShoestringSolutions/Telemetry",
     "Sensing"       : "https://github.com/DigitalShoestringSolutions/sm_SensingDC",
-    "Docker"        : https://github.com/DigitalShoestringSolutions/Docker"
+    "Docker"        : "https://github.com/DigitalShoestringSolutions/Docker"
 
 }
