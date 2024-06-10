@@ -34,7 +34,7 @@ solution_files = Path(__file__).parents[3]
 ## -- Run -------------------------------------------------------------------------
 
 # keep a list of the names of service modules that have been downloaded, to manage duplicates
-_downloaded_service_modules = [] 
+_downloaded_service_modules = []
 
 # Look for a recipe
 with solution_files.joinpath(Path(recipefilename)).open(mode='r') as recipefile:
@@ -65,7 +65,7 @@ with solution_files.joinpath(Path(recipefilename)).open(mode='r') as recipefile:
             i = 1
             while SMName in _downloaded_service_modules:
                 i += 1
-                SMName = str(SMBaseName + i)
+                SMName = SMBaseName + str(i)
             _downloaded_service_modules.append(SMName)
 
             download_to = str(solution_files.joinpath("ServiceModules/" + SMName))
