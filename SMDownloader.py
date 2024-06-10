@@ -16,11 +16,25 @@ from mirrordirector import ServiceModuleURLs as SMURLs
 
 ## --------------------------------------------------------------------------------
 
+
+
+## -- Settings --------------------------------------------------------------------
+
 recipefilename = "recipe.txt"
 
 # Define the solution files folder as 3 levels above this script.
 # Typically the stack will be <soluton_files>/ServiceModules/Assembly/ShoestringAssembler/SMDownloader.py
 solution_files = Path(__file__).parents[3]
+
+## --------------------------------------------------------------------------------
+
+
+
+
+## --------------------------------------------------------------------------------
+
+# keep a list of the names of service modules that have been downloaded, to manage duplicates
+_downloaded_service_modules = [] 
 
 # Look for a recipe
 with solution_files.joinpath(Path(recipefilename)).open(mode='r') as recipefile:
@@ -39,12 +53,21 @@ with solution_files.joinpath(Path(recipefilename)).open(mode='r') as recipefile:
         line[-1] = line[-1].split("\n")[0]     # remove trailing newline from last item
 
         # Associate names
-        SMName = line[0]
+        SMBaseName = line[0]
         branchname = line[1]
 
         # Attempt to action recipe line
-        if SMName in SMURLs:
-            url = SMURLs[SMName]
+        if SMBaseName in SMURLs:
+            url = SMURLs[SMBaseName]
+
+            # Duplicate management
+            SMName = SMBaseName # First try to use the BaseName
+            i = 1
+            while SMName in _downloaded_service_modules:
+                i += 1
+                SMName = str(SMBaseName + i)
+            _downloaded_service_modules.append(SMName)
+
             download_to = str(solution_files.joinpath("ServiceModules/" + SMName))
 
             print()
