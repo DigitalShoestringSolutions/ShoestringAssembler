@@ -65,7 +65,7 @@ with solution_files.joinpath(Path(recipefilename)).open(mode='r') as recipefile:
             url = ServiceModuleURLs[sm_base_name]
 
             # Duplicate management
-            sm_instance_name = sm_base_name # First try to use the BaseName as instance name
+            sm_instance_name = sm_base_name # First try to use the base name as the instance name
             i = 1
             while sm_instance_name in _downloaded_service_modules:
                 i += 1                                              # If instance name taken, increment count
@@ -77,10 +77,10 @@ with solution_files.joinpath(Path(recipefilename)).open(mode='r') as recipefile:
             print()
             print("Downloading", sm_instance_name, "branch", branch_name, "from", url, "to", download_to)
             _download_command = "git clone " + url
-            if branch_name is not None:
-                _download_command += " -b " + branch_name
+            if branch_name is not None:                     # If branch specified in recipe
+                _download_command += " -b " + branch_name   # Insert into the clone command. Else omit. 
             _download_command += " " + download_to
-            os.system(_download_command)
+            os.system(_download_command)                    # Run the string concatenated above
 
 
         else:
