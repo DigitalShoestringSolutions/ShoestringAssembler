@@ -33,7 +33,7 @@ solution_files = Path(__file__).parents[3]
 
 ## -- Run -------------------------------------------------------------------------
 
-# keep a list of the names of service modules that have been downloaded, to manage duplicates
+# keep a list of the instance names of service modules that have been downloaded, to manage duplicates
 _downloaded_service_modules = []
 
 # Look for a recipe
@@ -53,29 +53,30 @@ with solution_files.joinpath(Path(recipefilename)).open(mode='r') as recipefile:
         line[-1] = line[-1].split("\n")[0]     # remove trailing newline from last item
 
         # Associate names
-        SMBaseName = line[0]
-        branchname = line[1]
+        sm_base_name = line[0]
+        branch_name = line[1]
 
         # Attempt to action recipe line
-        if SMBaseName in SMURLs:
-            url = SMURLs[SMBaseName]
+        if sm_base_name in SMURLs:
+            url = SMURLs[sm_base_name]
 
             # Duplicate management
-            SMName = SMBaseName # First try to use the BaseName
+            sm_instance_name = sm_base_name # First try to use the BaseName
             i = 1
-            while SMName in _downloaded_service_modules:
+            while sm_instance_name in _downloaded_service_modules:
                 i += 1
-                SMName = SMBaseName + str(i)
-            _downloaded_service_modules.append(SMName)
+                sm_instance_name = sm_base_name + str(i)
+            _downloaded_service_modules.append(sm_instance_name)
 
-            download_to = str(solution_files.joinpath("ServiceModules/" + SMName))
+            download_to = str(solution_files.joinpath("ServiceModules/" + sm_instance_name))
 
             print()
-            print("Downloading", SMName, "branch", branchname, "from", url, "to", download_to)
-            os.system("git clone " + url + " -b " + branchname + " " + download_to)
+            print("Downloading", sm_instance_name, "branch", branch_name, "from", url, "to", download_to)
+            os.system("git clone " + url + " -b " + branch_name + " " + download_to)
 
 
         else:
+            print()
             print("Assembler Error: no Servie Module URL defined for line in recipe", line)
 
 ## --------------------------------------------------------------------------------
