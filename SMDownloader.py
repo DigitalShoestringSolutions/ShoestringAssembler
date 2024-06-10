@@ -31,7 +31,7 @@ solution_files = Path(__file__).parents[3]
 
 
 
-## --------------------------------------------------------------------------------
+## -- Run -------------------------------------------------------------------------
 
 # keep a list of the names of service modules that have been downloaded, to manage duplicates
 _downloaded_service_modules = [] 
@@ -77,3 +77,5 @@ with solution_files.joinpath(Path(recipefilename)).open(mode='r') as recipefile:
 
         else:
             print("Assembler Error: no Servie Module URL defined for line in recipe", line)
+
+## --------------------------------------------------------------------------------
