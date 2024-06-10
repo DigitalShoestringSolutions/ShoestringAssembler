@@ -12,7 +12,7 @@ from pathlib import Path
 #none
 
 # Local imports
-from mirrordirector import ServiceModuleURLs as SMURLs
+from mirrordirector import ServiceModuleURLs
 
 ## --------------------------------------------------------------------------------
 
@@ -57,16 +57,16 @@ with solution_files.joinpath(Path(recipefilename)).open(mode='r') as recipefile:
         branch_name = line[1]
 
         # Attempt to action recipe line
-        if sm_base_name in SMURLs:
-            url = SMURLs[sm_base_name]
+        if sm_base_name in ServiceModuleURLs:
+            url = ServiceModuleURLs[sm_base_name]
 
             # Duplicate management
-            sm_instance_name = sm_base_name # First try to use the BaseName
+            sm_instance_name = sm_base_name # First try to use the BaseName as instance name
             i = 1
             while sm_instance_name in _downloaded_service_modules:
-                i += 1
-                sm_instance_name = sm_base_name + str(i)
-            _downloaded_service_modules.append(sm_instance_name)
+                i += 1                                              # If instance name taken, increment count
+                sm_instance_name = sm_base_name + str(i)            # and try using name with count eg Sensing2
+            _downloaded_service_modules.append(sm_instance_name)    # record final instance name used
 
             download_to = str(solution_files.joinpath("ServiceModules/" + sm_instance_name))
 
