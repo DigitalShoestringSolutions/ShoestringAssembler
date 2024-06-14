@@ -26,7 +26,10 @@ from pathlib import Path
 
 # Assume this file is <solution_files>/ServiceModules/Assembly/ShoestringAssembler/link_config.py
 ServiceModules = Path(__file__).parents[2]
+print()
+print("ServiceModules path:", ServiceModules) # looks good
 UserConfig = Path(__file__).parents[3].joinpath("UserConfig")
+print("UserConfig path:", UserConfig) # looks good
 
 ## --------------------------------------------------------------------------------
 
@@ -35,15 +38,19 @@ UserConfig = Path(__file__).parents[3].joinpath("UserConfig")
 
 ## -- Run -------------------------------------------------------------------------
 
-for SMDir in UserConfig: # will SMDir be a short string dir name or a full path? Need both  - either way will need to convert.
+for SMDir in UserConfig.glob('*'): # will SMDir be a short string dir name or a full path? Need both  - either way will need to convert.
+    print("this SMDir:", SMDir)
     for configitem in SMDir.rglob('*'):
-        dest_path = ServiceModules.joinpath(SMDir, "config", configitem.relative_to(UserConfig.joinpath(SMDir)))
+        dest_path = ServiceModules.joinpath(SMDir.relative_to(UserConfig), "config", configitem.relative_to(SMDir))
+        print("dest path is", dest_path)
+        
         if configitem.is_dir():
             os.mkdir(dest_path)
         
         else:
-            # create link from (configitemabspath) to (dest_path)
-            os.system('ln "' + str(configitem) + '" "' + str(dest_path) + '"')
+            print("linking", configitem, " to ", dest_path)
+            #os.system('ln "' + str(configitem) + '" "' + str(dest_path) + '"')
+        print()
             
 
 
