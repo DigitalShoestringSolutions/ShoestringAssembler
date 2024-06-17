@@ -26,10 +26,7 @@ from pathlib import Path
 
 # Assume this file is <solution_files>/ServiceModules/Assembly/ShoestringAssembler/link_config.py
 ServiceModules = Path(__file__).parents[2]
-print()
-print("ServiceModules path:", ServiceModules) # looks good
 UserConfig = Path(__file__).parents[3].joinpath("UserConfig")
-print("UserConfig path:", UserConfig) # looks good
 
 ## --------------------------------------------------------------------------------
 
@@ -39,6 +36,9 @@ print("UserConfig path:", UserConfig) # looks good
 ## -- Run -------------------------------------------------------------------------
 
 print("Linking UserConfig to Service Modules...")
+print("UserConfig path:", UserConfig)
+print("ServiceModules path:", ServiceModules)
+
 for SMDir in UserConfig.glob('*'): # SMDir is a full path. Get SM name from SMDir.relative_to(UserConfig) below.
     for configitem in SMDir.rglob('*'):
         dest_path = ServiceModules.joinpath(SMDir.relative_to(UserConfig), "config", configitem.relative_to(SMDir))
@@ -50,4 +50,3 @@ for SMDir in UserConfig.glob('*'): # SMDir is a full path. Get SM name from SMDi
             print("linking", configitem, " to ", dest_path)
             # Note how below both "paths are in quotes" to support names with whitespace
             os.system('ln "' + str(configitem) + '" "' + str(dest_path) + '"')
-        print()
