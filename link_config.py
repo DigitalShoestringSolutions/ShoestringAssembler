@@ -44,7 +44,9 @@ for SMDir in UserConfig.glob('*'): # SMDir is a full path. Get SM name from SMDi
         dest_path = ServiceModules.joinpath(SMDir.relative_to(UserConfig), "config", configitem.relative_to(SMDir))
         
         if configitem.is_dir():
-            os.mkdir(dest_path)
+            if not dest_path.exists():
+                print("making directory", dest_path)
+                os.mkdir(dest_path)
         
         else:
             print("linking", configitem, " to ", dest_path)
