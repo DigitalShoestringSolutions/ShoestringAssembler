@@ -11,5 +11,8 @@ python3 $SCRIPT_DIR/SMDownloader.py
 # Run init files in each service module, if present
 python3 $SCRIPT_DIR/init_SMs.py
 
+# Link config files between UserConfig and each Service Module's config dirctory
+python3 $SCRIPT_DIR/link_config.py
+
 # Generate a docker-compose file at <solutionfiles>
 python3 $SCRIPT_DIR/include_docker_composes.py

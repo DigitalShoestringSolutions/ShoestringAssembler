@@ -28,7 +28,56 @@ Sensing=feature/recipe-lite
 Sensing=feature/recipe-lite
 ```
 This will create two Sensing Service Modules in your Solution. They can be on the same or different branches. 
-When assembled, the Sensing Service Module will be cloned into `ServiceModules/Sensing` and also `ServiceModules/Sensing2`
+When assembled, the Sensing Service Module will be cloned first into `ServiceModules/Sensing` and then also into `ServiceModules/Sensing2`
+
+
+## Linking Config
+
+The Assembler can link config files shipped with the solution onto the Service Modules it downloads.  
+If the `UserConfig` contains the subdir `MyServiceModule` and `MyServiceModule` is sucessfully downloaded via `recipe.txt`, then the contents of `UserConfig/MyServiceModule/` will be hard linked into `ServiceModules/MyServiceModule/config/`. 
+
+
+If for example the `UserConfig` dir has the following structure:
+
+```bash
+├── UserConfig/
+│   ├── Timeseries/
+│   │   └── telegraf.conf
+│   ├── Grafana/
+│   │   └── dashboards/
+│   │       │── dashboard1.json
+│   │       └── dashboard2.json
+│   ├── Sensing
+│   │   └── main.py
+│   └── Sensing2
+│       └── main.py
+...
+```
+Then when ServiceModules is populated:
+
+```bash
+├── ServiceModules/
+│   ├── Timeseries/
+│   │   ├── config/
+│   │   │   └── telegraf.conf
+│   │   └── ...
+│   ├── Grafana
+│   │   ├── config/
+│   │   │   └── dashboards/
+│   │   │       │── dashboard1.json
+│   │   │       └── dashboard2.json
+│   │   └── ...
+│   ├── Sensing
+│   │   ├── config/
+│   │   │    └── main.py
+│   │   └── ...
+│   ├── Sensing2
+│   │   ├── config/
+│   │   │    └── main.py
+│   │   └── ...
+│   ├── ...
+```
+Multiples of the same Service Module are supported - the subdirectory name under `UserConfig` must be incremented as above.
 
 
 ## To try it out:
