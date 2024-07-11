@@ -10,16 +10,20 @@ An "assembler" then runs on the recipe and gathers the Service Modules from resp
 
 ## Writing a recipe
 The recipe for the solution is a text file called `recipe.txt` in the Solution's root directory.  
-Service Modules are added to the Solution by appending their name to the recipe. A list of supported Service Modules can be found in `mirrordirector.py`.  
-A particular branch or tag of that Service Module's codebase can be used by adding `=branchname` after the name of the Service Module. If this is not supplied, that Service Module's default branch will be used.
+Service Modules are added to the Solution by appending their name to the recipe. A list of supported Service Modules can be found in `mirrordirector.py`.
 
-An example `recipe.txt`:
+### Specifing versions of Service Modules
+A particular branch or tag of that Service Module's codebase can be used by adding `=branchname` after the name of the Service Module. If this is not supplied, that Service Module's default branch will be used. Release tags can be partially specified with the any wildcard *, in which case the highest SemVer release that begins as specified will be used. <!--Unfortunately dashed suffixes take precedence over tags without a suffix, in contrast to SemVer -->
+
+An example valid `recipe.txt`:
 ```
 Grafana
-MQTTBroker=master
+MQTTBroker=main
 Sensing=feature/recipe-lite
+Telemetry=v1.2.3
+SetupLogging=v1.*
 ```
-
+In this case the branch of SetupLogging downloaded would be the latest release of version 1. Note the inclusion of the . before the *, which prevents v10 and onwards being selected.
 
 ### Multiple of the same Service Module
 Multiple instances of the same Service Module are supported. Simply duplicate the lines in the recipe:
