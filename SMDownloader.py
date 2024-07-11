@@ -72,6 +72,13 @@ with solution_files.joinpath(Path(recipefilename)).open(mode='r') as recipefile:
                 sm_instance_name = sm_base_name + str(i)            # and try using name with count eg Sensing2
             _downloaded_service_modules.append(sm_instance_name)    # record final instance name used
 
+            # Version management
+            # If a recipe specifies v0.2.0, the tag v0.2.0 will be checked out. 
+            # Could a recipe specify v0.2 or v0.2.x, to allow the Assembler to find the highest SemVer tag before v0.3?
+            # Either clone the default branch, then view available tags, calculate target and checkout, or find tags online?
+            # However, previously the branch was part of the clone command from the begining, 
+            # to ensure if the branch was not found then the whole clone would fail lest we be left with a surprise branch.
+
             # Download with git clone
             download_to = str(solution_files.joinpath("ServiceModules/" + sm_instance_name))
             print()
