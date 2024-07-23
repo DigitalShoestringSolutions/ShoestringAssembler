@@ -23,7 +23,7 @@ from mirrordirector import ServiceModuleURLs
 recipefilename = "recipe.txt"
 
 # Define the solution files folder as 3 levels above this script.
-# Typically the stack will be <soluton_files>/ServiceModules/Assembly/ShoestringAssembler/SMDownloader.py
+# Typically the stack will be <solution_files>/ServiceModules/Assembly/ShoestringAssembler/SMDownloader.py
 solution_files = Path(__file__).parents[3]
 
 ## --------------------------------------------------------------------------------
