@@ -63,7 +63,7 @@ with solution_files.joinpath(Path(recipefilename)).open(mode='r') as recipefile:
 
         # Associate names
         sm_base_name = line[0]
-        if len(line) > 1:           # If an = was in the recipe line, try to use what follows as a branch/tab name.
+        if len(line) > 1:           # If an = was in the recipe line, try to use what follows as a branch/tag name.
             branch_specifier = line[1]
 
         # Attempt to action recipe line
