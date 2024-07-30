@@ -87,7 +87,3 @@ Multiples of the same Service Module are supported - the subdirectory name under
 - run `ServiceModules/Assembly/preassembly.sh` to assemble the solution
 - `docker compose build`
 - `./start.sh`
-
-Note that you may need to remote into the pi from a computer with access to the private Shoestring repos.  
-This repo, and many of the service modules called, are private: a typical pi will not have permissions to access them.  
-The longer term plan is to consider making necessary repos public.
