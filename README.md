@@ -1,11 +1,16 @@
-# A concept for deploying Shoestring Solutions.
+# A deployment tool for Shoestring Solutions
 
-Future / WIP. 
+## About
+The purpose of this tool is to allow each Shoestring Solution to be developed and delivered in minimal form.  
+The aim is to reduce each Solution's repository to the elements that are specific to that Solution.  
+The motivation is two-fold:
+- To avoid duplicates of Service Module source code, making source control possible.  
+- To minimise Solution development time by making reuse of established modules as easy as possible.
 
-The Solution is developed and delivered as a lightweight "recipe" of required Service Modules and configuration files.  
-An "assembler" then runs on the recipe and gathers the Service Modules from respective git repos.  
+A solution needs only to consist of a "recipe" (names of required Service Modules) and configuration files.  
+An "assembler" then runs on the recipe and gathers the Service Modules from their respective git repos.  
 
-As the workings of the assembler itself will need development, the assembler will have its own git repo - here. A minimal code snippet to download and run the assembler will be shipped with each solution, dubbed [get_service_modules.sh](https://github.com/DigitalShoestringSolutions/starter-solution-template/blob/feature/assembler/ServiceModules/Assembly/get_service_modules.sh)
+As the workings of the assembler itself will need development, the assembler will have its own git repo - here. A minimal code snippet to download and run the assembler will be shipped with each solution, dubbed `get_service_modules.sh`. [See the starter solution template.](https://github.com/DigitalShoestringSolutions/starter-solution-template/blob/feature/assembler/ServiceModules/Assembly/get_service_modules.sh)
 
 
 ## Writing a recipe
