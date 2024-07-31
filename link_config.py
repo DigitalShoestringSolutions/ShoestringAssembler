@@ -63,6 +63,13 @@ for SMDir in UserConfig.glob('*'):
 
         # if not a directory, it is a file item that can be linked
         else:
+            
+            # If a file/dir/similar already exists in the destination, delete it to make way for replacement
+            if dest_path.exists():
+                print("overwriting default config file at", dest_path)
+                os.system('rm -r "' + str(dest_path) + '"')
+
+            # Hard link from the file in UserConfig to the config folder in the Service Module
             print("linking", configitem, " to ", dest_path)
             # Note how below both "paths are in quotes" to support names with whitespace
             os.system('ln "' + str(configitem) + '" "' + str(dest_path) + '"')
