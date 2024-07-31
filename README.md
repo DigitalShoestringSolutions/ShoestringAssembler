@@ -82,8 +82,4 @@ Multiples of the same Service Module are supported - the subdirectory name under
 
 ## To try it out:
 
-- Clone branch `feature/recipe` of the temperature monitoring solution
-- Edit the config file as necessary in `UserConfig/sensor_config.toml`
-- run `ServiceModules/Assembly/preassembly.sh` to assemble the solution
-- `docker compose build`
-- `./start.sh`
+- Follow instructions in the README of [the Humidity Monitoring solution](https://github.com/DigitalShoestringSolutions/HumidityMonitoring)
