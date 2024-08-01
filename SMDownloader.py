@@ -79,9 +79,9 @@ with solution_files.joinpath(Path(recipefilename)).open(mode='r') as recipefile:
             _downloaded_service_modules.append(sm_instance_name)    # record final instance name used
 
             # Version management
-            # To remove the possibility of ending up with the wrong version downloaded, 
+            # To remove the possibility of ending up with the wrong version downloaded,
             # ensure the target branch or tag is available before attempting clone.
-            
+
             if branch_specifier is not None:
 
                 # Get list of remote branches
@@ -104,16 +104,16 @@ with solution_files.joinpath(Path(recipefilename)).open(mode='r') as recipefile:
                     # If an exact tag match is available, take it
                     if branch_specifier in _available_tags:
                         _download_branch = branch_specifier
-                    
+
                     # If no exact branch or tag match, search for the tag that is the best semver match.
                     else:
-                        # Given that there was not an exact match, an unknown suffix will be found. 
+                        # Given that there was not an exact match, an unknown suffix will be found.
                         # It should not begin with a digit (e.g. if I asked for v1.6 I don't want v1.62)
                         # It should not begin with a - (as I desire to exclude prereleases from search, partially because git ls-remote can't get them in the semver order).
                         # Hence, the only acceptable next character is a full stop. Add this to the search term to exclude the above alternatives.
                         _branch_specifier_search = branch_specifier + '.'
-                        
-                        for tag in _available_tags: 
+
+                        for tag in _available_tags:
                             # _available_tags is already sorted by semver M.m.p highest precedence first when created.
                             if tag.startswith(_branch_specifier_search):
 
@@ -137,10 +137,10 @@ with solution_files.joinpath(Path(recipefilename)).open(mode='r') as recipefile:
             print()
             print("Downloading", sm_instance_name, "branch", _download_branch, "from specifier", branch_specifier)
             print("from", url, "to", download_to)
-            
+
             _download_command = "git clone " + url
             if _download_branch is not None:                    # If branch specified in recipe
-                _download_command += " -b " + _download_branch  # Insert into the clone command. Else omit. 
+                _download_command += " -b " + _download_branch  # Insert into the clone command. Else omit.
             _download_command += " " + download_to
 
             os.system(_download_command)                        # Run the string concatenated above
