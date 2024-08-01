@@ -66,7 +66,7 @@ for SMDir in UserConfig.glob('*'):
             
             # If a file/dir/similar already exists in the destination, delete it to make way for replacement
             if dest_path.exists():
-                print("    Overwriting default config file at", dest_path)
+                print("    Deleting default config file at", dest_path)
                 os.system('rm -r "' + str(dest_path) + '"')
 
             # Hard link from the file in UserConfig to the config folder in the Service Module
