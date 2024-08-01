@@ -45,7 +45,7 @@ with solution_files.joinpath(Path(recipefilename)).open(mode='r') as recipefile:
         sm_base_name = None
         url = None
         branch_specifier = None      # Also supports not supplying a branch name and using SM repo default.
-        _branch_specifier_start = None
+        _branch_specifier_search = None
         _available_branches = None
         _available_long_heads = None
         _available_tags = None
@@ -105,17 +105,25 @@ with solution_files.joinpath(Path(recipefilename)).open(mode='r') as recipefile:
                     if branch_specifier in _available_tags:
                         _download_branch = branch_specifier
                     
+                    # If no exact branch or tag match, search for the tag that is the best semver match.
                     else:
-                        # Strip any wildcard (*) if present and everything after it
-                        _branch_specifier_start = branch_specifier.split('*')[0] # everything up until the first *
-                        # _available_tags is already sorted by semver M.m.p highest first when created.
-                        # Known issue however: dashed suffixes superceed no suffix, which is anti-semver.
+                        # Given that there was not an exact match, an unknown suffix will be found. 
+                        # It should not begin with a digit (e.g. if I asked for v1.6 I don't want v1.62)
+                        # It should not begin with a - (as I desire to exclude prereleases from search, partially because git ls-remote can't get them in the semver order).
+                        # Hence, the only acceptable next character is a full stop. Add this to the search term to exclude the above alternatives.
+                        _branch_specifier_search = branch_specifier + '.'
+                        
                         for tag in _available_tags: 
-                            if tag.startswith(_branch_specifier_start):
+                            # _available_tags is already sorted by semver M.m.p highest precedence first when created.
+                            if tag.startswith(_branch_specifier_search):
 
                                 # Ignore prerelease tags
-                                if '-' in tag: # Not a perfect test (dashed prefixes will be caught as collateral)
-                                    continue
+                                # A request for v1.10 could so far pick up v1.10.2-rc3
+                                # Furthermore, it could select v1.10.2-rc3 over v1.10.2 due to ls-remote's imperfect ordering.
+                                # However, it would be excessive to ignore any tag with a dash in it. lite-v1.2.3 is a desired pickup from specifier lite-v1.2
+                                _suffix = tag[len(_branch_specifier_search):]
+                                if '-' in _suffix:  # if there is a dash in the unspecified part of the tag
+                                    continue        # skip and continue search
 
                                 download_branch = tag
                                 break

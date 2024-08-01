@@ -10,20 +10,25 @@ An "assembler" then runs on the recipe and gathers the Service Modules from resp
 
 ## Writing a recipe
 The recipe for the solution is a text file called `recipe.txt` in the Solution's root directory.  
-Service Modules are added to the Solution by appending their name to the recipe. A list of supported Service Modules can be found in `mirrordirector.py`.
+Service Modules are added to the Solution by appending their name to the recipe. Each Service Module must have its own line in `recipe.txt`.    
+A list of supported Service Modules can be found in `mirrordirector.py`.
 
 ### Specifing versions of Service Modules
-A particular branch or tag of that Service Module's codebase can be used by adding `=branchname` after the name of the Service Module. If this is not supplied, that Service Module's default branch will be used. Release tags can be partially specified with the any wildcard *, in which case the highest SemVer release that begins as specified will be used. <!-- Note that prereleases/dashed suffixes are exlcuded from the search, if you want to use one it must be named in full for an exact match. -->
+A particular branch or tag of that Service Module's codebase can be specified by adding `=branchname` after the name of the Service Module. If this is not supplied, that Service Module's default branch will be used. Release tags can be specified in the same way.  
 
-An example valid `recipe.txt`:
+Semantically versioned release tags can be partially specified. Where an exact branch or tag match is not available, the tag with the highest SemVer precedence that begins as specified will be used.  
+Note that prereleases (tags with dashed suffixes) will not be automatically selected.  
+
+An example of a valid `recipe.txt`:
 ```
 Grafana
 MQTTBroker=main
 Sensing=feature/recipe-lite
 Telemetry=v1.2.3
-SetupLogging=v1.*
+SetupLogging=v1.6
 ```
-In this case the branch of SetupLogging downloaded would be the latest release of version 1. Note the inclusion of the . before the *, which prevents v10 and onwards being selected.
+Assuming the exact tag `v1.2.3` exists for Telemetry, this will be used.  
+Assuming the eact tag `v1.6` does not exist for SetupLogging, `v1.6.2` would be selected over `v1.6.1`, but `v1.6.3-rc4` would be ignored.
 
 ### Multiple of the same Service Module
 Multiple instances of the same Service Module are supported. Simply duplicate the lines in the recipe:
@@ -31,7 +36,7 @@ Multiple instances of the same Service Module are supported. Simply duplicate th
 Sensing=feature/recipe-lite
 Sensing=feature/recipe-lite
 ```
-This will create two Sensing Service Modules in your Solution. They can be on the same or different branches. 
+This will create two Sensing Service Modules in your Solution. They can be on the same or different branches/tags. 
 When assembled, the Sensing Service Module will be cloned first into `ServiceModules/Sensing` and then also into `ServiceModules/Sensing2`
 
 
