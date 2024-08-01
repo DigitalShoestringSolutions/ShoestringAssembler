@@ -28,7 +28,7 @@ Telemetry=v1.2.3
 SetupLogging=v1.6
 ```
 Assuming the exact tag `v1.2.3` exists for Telemetry, this will be used.  
-Assuming the eact tag `v1.6` does not exist for SetupLogging, `v1.6.2` would be selected over `v1.6.1`, but `v1.6.3-rc4` would be ignored.
+Assuming the exact tag `v1.6` does not exist for SetupLogging, `v1.6.2` would be selected over `v1.6.1`, but `v1.6.3-rc4` would be ignored.
 
 ### Multiple of the same Service Module
 Multiple instances of the same Service Module are supported. Simply duplicate the lines in the recipe:
