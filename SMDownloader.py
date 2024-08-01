@@ -125,12 +125,13 @@ with solution_files.joinpath(Path(recipefilename)).open(mode='r') as recipefile:
                                 if '-' in _suffix:  # if there is a dash in the unspecified part of the tag
                                     continue        # skip and continue search
 
-                                download_branch = tag
+                                _download_branch = tag
                                 break
 
-                        # if fallen through to here, a suitable branch/tag could not be found.
-                        print("ERROR: No suitable branch of", sm_base_name, "found for specifier", branch_specifier)
-                        continue
+                        # if _download_branch is still None, a suitable branch/tag could not be found.
+                        if _download_branch is None: # not acceptable here as within `if branch_specifier is not None:` far above.
+                            print("ERROR: No suitable branch of", sm_base_name, "found for specifier", branch_specifier, "Cancelling download of", sm_instance_name)
+                            continue    # give up on this line of the recipe and move on to next
 
             # Download with git clone
             download_to = str(solution_files.joinpath("ServiceModules/" + sm_instance_name))
