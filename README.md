@@ -1,11 +1,16 @@
-# A concept for deploying Shoestring Solutions.
+# A deployment tool for Shoestring Solutions
 
-Future / WIP. 
+## About
+The purpose of this tool is to allow each Shoestring Solution to be developed and delivered in minimal form.  
+The aim is to reduce each Solution's repository to the elements that are specific to that Solution.  
+The motivation is two-fold:
+- To avoid duplicates of Service Module source code, making version control possible.  
+- To minimise Solution development time by making reuse of established modules as easy as possible.
 
-The Solution is developed and delivered as a lightweight "recipe" of required Service Modules and configuration files.  
-An "assembler" then runs on the recipe and gathers the Service Modules from respective git repos.  
+A solution needs only to consist of a "recipe" (names of required Service Modules) and configuration files.  
+An "assembler" then runs on the recipe and gathers the Service Modules from their respective git repos.  
 
-<i>(As the workings of the assembler itself will need development, the assembler will have its own git repo - here. A minimal code snippet to download and run the assembler will be shipped with each solution, dubbed "preassembly.sh") </i>  
+As the workings of the assembler itself will need development, the assembler will have its own git repo - here. A minimal code snippet to download and run the assembler will be shipped with each solution, dubbed `get_service_modules.sh`. [See the starter solution template.](https://github.com/DigitalShoestringSolutions/starter-solution-template/blob/feature/assembler/ServiceModules/Assembly/get_service_modules.sh)
 
 
 ## Writing a recipe
@@ -91,12 +96,4 @@ Multiples of the same Service Module are supported - the subdirectory name under
 
 ## To try it out:
 
-- Clone branch `feature/recipe` of the temperature monitoring solution
-- Edit the config file as necessary in `UserConfig/sensor_config.toml`
-- run `ServiceModules/Assembly/preassembly.sh` to assemble the solution
-- `docker compose build`
-- `./start.sh`
-
-Note that you may need to remote into the pi from a computer with access to the private Shoestring repos.  
-This repo, and many of the service modules called, are private: a typical pi will not have permissions to access them.  
-The longer term plan is to consider making necessary repos public.
+- Follow instructions in the README of [the Humidity Monitoring solution](https://github.com/DigitalShoestringSolutions/HumidityMonitoring)
