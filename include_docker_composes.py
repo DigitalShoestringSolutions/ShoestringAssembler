@@ -10,6 +10,9 @@
 # Building containers separately (result of quick test: dependency service remains undefined)
 # Including compose files - this is simply the one I am trying first.
 
+
+
+
 ## -- Imports ---------------------------------------------------------------------
 
 # standard imports
@@ -23,7 +26,10 @@ from pathlib import Path
 
 ## --------------------------------------------------------------------------------
 
-## -- Firm-coded settings ---------------------------------------------------------
+
+
+
+## -- Settings --------------------------------------------------------------------
 
 DOCKER_COMPOSE_FILE_NAMES = ['docker-compose.yml', 'docker-compose.yaml']   # for detecting sub compose files
 
@@ -34,7 +40,10 @@ ServiceModulesDir = solution_files.joinpath("ServiceModules")
 
 ## --------------------------------------------------------------------------------
 
-## -- iterate over service module folders -----------------------------------------
+
+
+
+## -- Iterate over service module folders to detect compose files -----------------
 
 sub_compose_files = []
 print()
@@ -54,6 +63,9 @@ for file in ServiceModulesDir.rglob('*'):
 print()
 
 ## --------------------------------------------------------------------------------
+
+
+
 
 ## -- Create the master docker-compose.yml ----------------------------------------
 #  --     iff there are service modules using docker 
