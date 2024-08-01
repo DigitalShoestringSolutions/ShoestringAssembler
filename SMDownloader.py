@@ -112,6 +112,11 @@ with solution_files.joinpath(Path(recipefilename)).open(mode='r') as recipefile:
                         # Known issue however: dashed suffixes superceed no suffix, which is anti-semver.
                         for tag in _available_tags: 
                             if tag.startswith(_branch_specifier_start):
+
+                                # Ignore prerelease tags
+                                if '-' in tag: # Not a perfect test (dashed prefixes will be caught as collateral)
+                                    continue
+
                                 download_branch = tag
                                 break
 

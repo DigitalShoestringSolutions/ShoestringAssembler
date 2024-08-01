@@ -13,7 +13,7 @@ The recipe for the solution is a text file called `recipe.txt` in the Solution's
 Service Modules are added to the Solution by appending their name to the recipe. A list of supported Service Modules can be found in `mirrordirector.py`.
 
 ### Specifing versions of Service Modules
-A particular branch or tag of that Service Module's codebase can be used by adding `=branchname` after the name of the Service Module. If this is not supplied, that Service Module's default branch will be used. Release tags can be partially specified with the any wildcard *, in which case the highest SemVer release that begins as specified will be used. <!--Unfortunately dashed suffixes take precedence over tags without a suffix, in contrast to SemVer -->
+A particular branch or tag of that Service Module's codebase can be used by adding `=branchname` after the name of the Service Module. If this is not supplied, that Service Module's default branch will be used. Release tags can be partially specified with the any wildcard *, in which case the highest SemVer release that begins as specified will be used. <!-- Note that prereleases/dashed suffixes are exlcuded from the search, if you want to use one it must be named in full for an exact match. -->
 
 An example valid `recipe.txt`:
 ```
