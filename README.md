@@ -4,7 +4,7 @@
 The purpose of this tool is to allow each Shoestring Solution to be developed and delivered in minimal form.  
 The aim is to reduce each Solution's repository to the elements that are specific to that Solution.  
 The motivation is two-fold:
-- To avoid duplicates of Service Module source code, making source control possible.  
+- To avoid duplicates of Service Module source code, making version control possible.  
 - To minimise Solution development time by making reuse of established modules as easy as possible.
 
 A solution needs only to consist of a "recipe" (names of required Service Modules) and configuration files.  
