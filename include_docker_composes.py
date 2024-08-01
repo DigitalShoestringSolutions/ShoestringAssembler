@@ -48,7 +48,7 @@ print("Searching for docker-compose.yml in Service Modules...")
 for file in ServiceModulesDir.rglob('*'):
     if file.name in DOCKER_COMPOSE_FILE_NAMES:
         rel_path = file.relative_to(solution_files)
-        print("Including", rel_path, "in Solution docker-compose.yml")
+        print("    Including", rel_path, "in Solution docker-compose.yml")
         sub_compose_files.append(str(rel_path))
 
 print()
