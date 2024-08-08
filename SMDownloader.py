@@ -32,6 +32,8 @@ solution_files = Path(__file__).parents[3]
 
 
 ## -- Run -------------------------------------------------------------------------
+print("## -----------------------------------------------------------------------")
+print("Downloading Service Modules...")
 
 # Keep a list of the instance names of service modules that have been downloaded, to manage duplicates.
 _downloaded_service_modules = []
@@ -130,14 +132,14 @@ with solution_files.joinpath(Path(recipefilename)).open(mode='r') as recipefile:
 
                         # if _download_branch is still None, a suitable branch/tag could not be found.
                         if _download_branch is None: # not acceptable here as within `if branch_specifier is not None:` far above.
-                            print("ERROR: No suitable branch of", sm_base_name, "found for specifier", branch_specifier, "Cancelling download of", sm_instance_name)
+                            print("    ERROR: No suitable branch of", sm_base_name, "found for specifier", branch_specifier, "Cancelling download of", sm_instance_name)
                             continue    # give up on this line of the recipe and move on to next
 
             # Download with git clone
             download_to = str(solution_files.joinpath("ServiceModules/" + sm_instance_name))
             print()
-            print("Downloading", sm_instance_name, "branch", _download_branch, "from specifier", branch_specifier)
-            print("from", url, "to", download_to)
+            print("    Downloading", sm_instance_name, "branch", _download_branch, "from specifier", branch_specifier)
+            print("        from", url, "to", download_to)
 
             _download_command = "git clone --quiet " + url
             if _download_branch is not None:                    # If branch specified in recipe
@@ -152,4 +154,5 @@ with solution_files.joinpath(Path(recipefilename)).open(mode='r') as recipefile:
             print("ERROR: no Servie Module URL defined for line in recipe", line)
             print()
 
+print("## -----------------------------------------------------------------------")
 ## --------------------------------------------------------------------------------

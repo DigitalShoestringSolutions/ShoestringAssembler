@@ -5,6 +5,9 @@
 #       such that during docker compose logs are redirected
 # Currently supported files types are .sh and .py
 
+
+
+
 ## -- Imports ---------------------------------------------------------------------
 
 # standard imports
@@ -19,16 +22,22 @@ from pathlib import Path
 
 ## --------------------------------------------------------------------------------
 
-## -- Firm-coded settings ---------------------------------------------------------
 
-ServiceModulesDir = Path(__file__).parents[2] # Assuming this script is in ServiceModules/Assembly/ShoestringAssembler/
+
+
+## -- Settings --------------------------------------------------------------------
+
+# Assuming this script is in ServiceModules/Assembly/ShoestringAssembler/
+ServiceModulesDir = Path(__file__).parents[2]
 
 ## --------------------------------------------------------------------------------
 
-print()
-print("Running Service Module init scripts...")
 
-## -- iterate over service module folders -----------------------------------------
+
+
+## -- Iterate over service module folders -----------------------------------------
+print("## -----------------------------------------------------------------------")
+print("Running Service Module init scripts...")
 
 for file in ServiceModulesDir.rglob('*'):
     #if file.name in ['init_SM.sh']:
@@ -41,6 +50,5 @@ for file in ServiceModulesDir.rglob('*'):
                 # filthy but it works
                 exec(f.read())
 
+print("## -----------------------------------------------------------------------")
 ## --------------------------------------------------------------------------------
-        
-print()

@@ -34,11 +34,10 @@ UserConfig = Path(__file__).parents[3].joinpath("UserConfig")
 
 
 ## -- Run -------------------------------------------------------------------------
-
-print()
+print("## -----------------------------------------------------------------------")
 print("Linking UserConfig to Service Modules...")
-print("UserConfig path:", UserConfig)
-print("ServiceModules path:", ServiceModules)
+print("    UserConfig path:", UserConfig)
+print("    ServiceModules path:", ServiceModules)
 
 # For each subdirectory of UserConfig:
 for SMDir in UserConfig.glob('*'):
@@ -73,3 +72,6 @@ for SMDir in UserConfig.glob('*'):
             print("    Linking", configitem, "to", dest_path)
             # Note how below both "paths are in quotes" to support names with whitespace
             os.system('ln "' + str(configitem) + '" "' + str(dest_path) + '"')
+
+print("## -----------------------------------------------------------------------")
+## --------------------------------------------------------------------------------
