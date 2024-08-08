@@ -38,6 +38,9 @@ print("Downloading Service Modules...")
 # Keep a list of the instance names of service modules that have been downloaded, to manage duplicates.
 _downloaded_service_modules = []
 
+# Suppress messages about being in 'detached HEAD' state when switching to a tag
+os.system("git config --global advice.detachedHead false")
+
 # Look for a recipe
 with solution_files.joinpath(Path(recipefilename)).open(mode='r') as recipefile:
 
