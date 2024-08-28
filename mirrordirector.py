@@ -4,14 +4,23 @@
 
 ServiceModuleURLs = {
 
+    # Infrastructure modules
+    "Docker"        : "https://github.com/DigitalShoestringSolutions/Docker",
     "SetupLogging"  : "https://github.com/DigitalShoestringSolutions/SetupLogging",
+
+    # Data collection modules
+    "Sensing"       : "https://github.com/DigitalShoestringSolutions/sm_SensingDC",
+
+    # Data transfer modules
+    "MQTTBroker"    : "https://github.com/DigitalShoestringSolutions/sm_mqtt_broker",
+
+    # Data storage modules
+    "InfluxDB"    : "https://github.com/DigitalShoestringSolutions/sm_timeseries_db",
+
+    # User interface modules
+    "Grafana"       : "https://github.com/DigitalShoestringSolutions/sm_grafana_ui",
+
+    # Data output modules
     "ReportGen"     : "https://github.com/DigitalShoestringSolutions/sm_ReportGeneration",
     "AWSRelay"      : "https://github.com/DigitalShoestringSolutions/AWSRelay",
-    "Grafana"       : "https://github.com/DigitalShoestringSolutions/sm_grafana_ui",
-    "MQTTBroker"    : "https://github.com/DigitalShoestringSolutions/sm_mqtt_broker",
-    "Timeseries"    : "https://github.com/DigitalShoestringSolutions/sm_timeseries_db",
-    "Telemetry"     : "https://github.com/DigitalShoestringSolutions/Telemetry",
-    "Sensing"       : "https://github.com/DigitalShoestringSolutions/sm_SensingDC",
-    "Docker"        : "https://github.com/DigitalShoestringSolutions/Docker"
-
 }
