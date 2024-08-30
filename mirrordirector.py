@@ -7,6 +7,7 @@ ServiceModuleURLs = {
     # Infrastructure modules
     "Docker"            : "https://github.com/DigitalShoestringSolutions/Docker",
     "SetupLogging"      : "https://github.com/DigitalShoestringSolutions/SetupLogging",
+    "Assembler"         : "https://github.com/DigitalShoestringSolutions/ShoestringAssembler",
 
     # Data collection modules
     "Sensing"           : "https://github.com/DigitalShoestringSolutions/sm_SensingDC",
