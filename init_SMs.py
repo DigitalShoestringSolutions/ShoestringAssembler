@@ -36,6 +36,7 @@ ServiceModulesDir = Path(__file__).parents[2]
 
 
 ## -- Iterate over service module folders -----------------------------------------
+
 print("## -----------------------------------------------------------------------")
 print("Running Service Module init scripts...")
 
@@ -51,4 +52,5 @@ for file in ServiceModulesDir.rglob('*'):
                 exec(f.read())
 
 print("## -----------------------------------------------------------------------")
+
 ## --------------------------------------------------------------------------------
