@@ -17,6 +17,8 @@ ServiceModuleURLs = {
 
     # Data storage modules
     "InfluxDB"          : "https://github.com/DigitalShoestringSolutions/sm_timeseries_db",
+    "InfluxEditor"      : "https://github.com/DigitalShoestringSolutions/sm_flux_sds_edit",
+    "LocationsDB"       : "https://github.com/DigitalShoestringSolutions/location_ds",
 
     # User interface modules
     "Grafana"           : "https://github.com/DigitalShoestringSolutions/sm_grafana_ui",
