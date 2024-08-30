@@ -44,6 +44,7 @@ ServiceModulesDir = solution_files.joinpath("ServiceModules")
 
 
 ## -- Iterate over service module folders to detect compose files -----------------
+
 print("## -----------------------------------------------------------------------")
 print("Searching for docker-compose.yml in Service Modules...")
 
@@ -82,4 +83,5 @@ if len(sub_compose_files) > 0:
         master_compose_file.writelines(['networks:\n', '     internal:\n', '         name: shoestring-internal'])
 
 print("## -----------------------------------------------------------------------")
+
 ## --------------------------------------------------------------------------------
