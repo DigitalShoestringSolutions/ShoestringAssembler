@@ -73,7 +73,8 @@ for SMDir in UserConfig.glob('*'):
                 os.system('rm -r "' + str(dest_path) + '"')
 
             # Hard link from the file in UserConfig to the config folder in the Service Module
-            print("    Linking", configitem_short, "to", dest_path_short)
+            print("    Linking", configitem)
+            print("        to", dest_path)
             # Note how below both "paths are in quotes" to support names with whitespace
             os.system('ln "' + str(configitem) + '" "' + str(dest_path) + '"')
 
