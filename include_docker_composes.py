@@ -45,9 +45,10 @@ ServiceModulesDir = solution_files.joinpath("ServiceModules")
 
 ## -- Iterate over service module folders to detect compose files -----------------
 
-sub_compose_files = []
-print()
+print("## -----------------------------------------------------------------------")
 print("Searching for docker-compose.yml in Service Modules...")
+
+sub_compose_files = []
 
 # What the below block should do:
 # for each servicemodulesdir in servicemoduledirs:
@@ -59,8 +60,6 @@ for file in ServiceModulesDir.rglob('*'):
         rel_path = file.relative_to(solution_files)
         print("    Including", rel_path, "in Solution docker-compose.yml")
         sub_compose_files.append(str(rel_path))
-
-print()
 
 ## --------------------------------------------------------------------------------
 
@@ -82,5 +81,7 @@ if len(sub_compose_files) > 0:
         # Add the shoestring-internal network declaration to the end of the master compose file:
         master_compose_file.write('\n')
         master_compose_file.writelines(['networks:\n', '     internal:\n', '         name: shoestring-internal'])
+
+print("## -----------------------------------------------------------------------")
 
 ## --------------------------------------------------------------------------------

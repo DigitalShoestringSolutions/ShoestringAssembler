@@ -25,8 +25,9 @@ from pathlib import Path
 ## -- Settings --------------------------------------------------------------------
 
 # Assume this file is <solution_files>/ServiceModules/Assembly/ShoestringAssembler/link_config.py
-ServiceModules = Path(__file__).parents[2]
-UserConfig = Path(__file__).parents[3].joinpath("UserConfig")
+SolutionFiles = Path(__file__).parents[3]
+ServiceModules = SolutionFiles.joinpath("ServiceModules")
+UserConfig = SolutionFiles.joinpath("UserConfig")
 
 ## --------------------------------------------------------------------------------
 
@@ -35,10 +36,10 @@ UserConfig = Path(__file__).parents[3].joinpath("UserConfig")
 
 ## -- Run -------------------------------------------------------------------------
 
-print()
+print("## -----------------------------------------------------------------------")
 print("Linking UserConfig to Service Modules...")
-print("UserConfig path:", UserConfig)
-print("ServiceModules path:", ServiceModules)
+print("    UserConfig path:    ", UserConfig)
+print("    ServiceModules path:", ServiceModules)
 
 # For each subdirectory of UserConfig:
 for SMDir in UserConfig.glob('*'):
@@ -50,15 +51,18 @@ for SMDir in UserConfig.glob('*'):
         # Example configitem: /home/pi/ShoestringSolution/UserConfig/Grafana/dashboards/mydashboard.json
         # The below converts this into:
         # Example dest_path: /home/pi/ShoestringSolution/ServiceModules/Grafana/config/dashboards/mydashboard.json
-
         dest_path = ServiceModules.joinpath(SMDir.relative_to(UserConfig), "config", configitem.relative_to(SMDir))
+
+        # For brevity when printing, produce shortend names for configitem and dest_path:
+        configitem_short = configitem.relative_to(SolutionFiles)
+        dest_path_short = dest_path.relative_to(SolutionFiles)
 
         # Directories cannot be linked. Detect and handle them separately.
         # As the above search is recursive (rglob), the directory tree will be created in ServiceModules as necessary.
         if configitem.is_dir():
             # ignore if already exists
             if not dest_path.exists():
-                print("    Making directory", dest_path)
+                print("    Making directory", dest_path_short)
                 os.mkdir(dest_path)
 
         # if not a directory, it is a file item that can be linked
@@ -66,10 +70,15 @@ for SMDir in UserConfig.glob('*'):
             
             # If a file/dir/similar already exists in the destination, delete it to make way for replacement
             if dest_path.exists():
-                print("    Deleting default config file at", dest_path)
+                print("    Deleting default config file at", dest_path_short)
                 os.system('rm -r "' + str(dest_path) + '"')
 
             # Hard link from the file in UserConfig to the config folder in the Service Module
-            print("    Linking", configitem, "to", dest_path)
+            print("    Linking", configitem)
+            print("        to ", dest_path)
             # Note how below both "paths are in quotes" to support names with whitespace
             os.system('ln "' + str(configitem) + '" "' + str(dest_path) + '"')
+
+print("## -----------------------------------------------------------------------")
+
+## --------------------------------------------------------------------------------
