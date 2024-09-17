@@ -145,7 +145,7 @@ with solution_files.joinpath(Path(recipefilename)).open(mode='r') as recipefile:
             print()
             print("    Downloading", sm_instance_name, "branch", _download_branch, "from specifier", branch_specifier)
             print("        from", url)
-            print("        to", download_to)
+            print("        to  ", download_to)
 
             _download_command = "git clone --quiet " + url
             if _download_branch is not None:                    # If branch specified in recipe
