@@ -58,6 +58,7 @@ with solution_files.joinpath(Path(recipefilename)).open(mode='r') as recipefile:
         _available_tags = None
         _available_long_tags = None
         _download_branch = None
+        _download_hash = None
         _download_command = ""
 
         # Skip line if blank or commented out python style
@@ -140,10 +141,13 @@ with solution_files.joinpath(Path(recipefilename)).open(mode='r') as recipefile:
                             print("    ERROR: No suitable branch of", sm_base_name, "found for specifier", branch_specifier, "Cancelling download of", sm_instance_name)
                             continue    # give up on this line of the recipe and move on to next
 
+                # Get the short commit hash from branch or tag name
+                _download_hash = os.popen("git ls-remote " + url + " " + _download_branch).read()[:7]
+
             # Download with git clone
             download_to = str(solution_files.joinpath("ServiceModules/" + sm_instance_name))
             print()
-            print("    Downloading", sm_instance_name, "branch", _download_branch, "from specifier", branch_specifier)
+            print("    Downloading", sm_instance_name, "branch", _download_branch, "(hash", _download_hash + ")", "from specifier", branch_specifier)
             print("        from", url)
             print("        to  ", download_to)
 
