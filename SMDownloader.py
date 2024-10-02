@@ -147,7 +147,7 @@ with solution_files.joinpath(Path(recipefilename)).open(mode='r') as recipefile:
             # Download with git clone
             download_to = str(solution_files.joinpath("ServiceModules/" + sm_instance_name))
             print()
-            print("    Downloading", sm_instance_name, "branch", _download_branch, "hash", _download_hash, "from specifier", branch_specifier)
+            print("    Downloading", sm_instance_name, "branch", _download_branch, "(hash", _download_hash + ")", "from specifier", branch_specifier)
             print("        from", url)
             print("        to  ", download_to)
 
