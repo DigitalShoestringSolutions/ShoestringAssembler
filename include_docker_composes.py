@@ -79,23 +79,21 @@ if len(sub_compose_files) > 0:
         master_compose_file.writelines(['networks:\n', '     internal:\n', '         name: shoestring-internal'])
 
 
-    # If the solution is using compose, also create ./start.sh if not already present in the solution
+    # If the solution is using compose, also create start.sh and stop.sh if not already present in the solution
+    for st in (('start.sh', 'CURRENT_UID="$(id -u)" docker compose up -d'), ('stop.sh', 'docker compose down')):
+        st_path = solution_files.joinpath(st[0])
+        if not st_path.exists():
+            print("    Creating", st_path)
     
-    start_path = solution_files.joinpath("start.sh")
-    print(start_path)
-    if not start_path.exists():
-        print("    Creating", start_path)
+            # Open for exclusive creation. Fail if file already exists, as if block already checked.
+            with open(st_path, 'x') as f:
+                f.write(st[1])
+    
+            # Set executable bit. Uses absolute file path.
+            os.popen("chmod +x " + str(st_path))
 
-        # Open for exclusive creation. Fail if file already exists, as if block already checked.
-        with open(start_path, 'x') as f:
-            f.write('CURRENT_UID="$(id -u)" docker compose up -d')
-
-        # Set executable bit. Uses absolute file path.
-        os.popen("chmod +x " + str(start_path))
-
-    else:
-        print("    start.sh already exists")
-
+        else:
+            print("    ", st_path, "already exists")
 
 print("## -----------------------------------------------------------------------")
 
