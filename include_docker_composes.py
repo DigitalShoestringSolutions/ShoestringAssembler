@@ -3,12 +3,7 @@
 # Creates a docker-compose.yml file in the solution files directory.
 # Detects docker-compose files in service modules and includes them in the master docker-compose file
 # does not use the recipe file directly, as some service modules may not have docker-compose elements (eg SetupLogging)
-
-# There are many approaches to the problem this is trying to solve, including:
-# Merging compose files
-# Extending compose files
-# Building containers separately (result of quick test: dependency service remains undefined)
-# Including compose files - this is simply the one I am trying first.
+#     and bespoke service modules using compose may be included with the solution (and hence not in the recipe)
 
 
 
@@ -17,6 +12,7 @@
 
 # standard imports
 from pathlib import Path
+import os
 
 # installed imports
 #none
@@ -61,12 +57,12 @@ for file in ServiceModulesDir.rglob('*'):
         print("    Including", rel_path, "in Solution docker-compose.yml")
         sub_compose_files.append(str(rel_path))
 
-## --------------------------------------------------------------------------------
+## -------------------------------------------------------------------------------
 
 
 
 
-## -- Create the master docker-compose.yml ----------------------------------------
+## -- Create the master docker-compose.yml and ./start.sh and ./stop.sh ----------
 #  --     iff there are service modules using docker 
 
 if len(sub_compose_files) > 0:
@@ -81,6 +77,23 @@ if len(sub_compose_files) > 0:
         # Add the shoestring-internal network declaration to the end of the master compose file:
         master_compose_file.write('\n')
         master_compose_file.writelines(['networks:\n', '     internal:\n', '         name: shoestring-internal'])
+
+
+    # If the solution is using compose, also create start.sh and stop.sh if not already present in the solution
+    for st in (('start.sh', 'CURRENT_UID="$(id -u)" docker compose up -d'), ('stop.sh', 'docker compose down')):
+        st_path = solution_files.joinpath(st[0])
+        if not st_path.exists():
+            print("    Creating", st_path)
+    
+            # Open for exclusive creation. Fail if file already exists, as if block already checked.
+            with open(st_path, 'x') as f:
+                f.write(st[1])
+    
+            # Set executable bit. Uses absolute file path.
+            os.popen("chmod +x " + str(st_path))
+
+        else:
+            print("    ", st_path, "already exists")
 
 print("## -----------------------------------------------------------------------")
 
