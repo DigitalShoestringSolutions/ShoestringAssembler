@@ -13,10 +13,17 @@ SCRIPT_DIR_DIR="$(dirname -- "$(realpath -- $SCRIPT_DIR)")"
 LOG_FILE=$SCRIPT_DIR_DIR/assemblerlog.txt
 
 
-# Run the Assembler!
-# Print the version of the Assembler being used
-git -C $SCRIPT_DIR log --oneline -1 2>&1 | tee -a $LOG_FILE
 
+# Print the version of the Solution and Assembler being used
+echo "Solution hash:" 2>&1 | tee -a $LOG_FILE
+git rev-parse --short HEAD 2>&1 | tee -a $LOG_FILE
+
+echo "Assembler hash:" 2>&1 | tee -a $LOG_FILE
+git -C $SCRIPT_DIR rev-parse --short HEAD 2>&1 | tee -a $LOG_FILE
+
+
+
+# Run the Assembler!
 # Download Service Modules into <solutionfiles>/ServiceModules
 python3 $SCRIPT_DIR/SMDownloader.py 2>&1 | tee -a $LOG_FILE
 
