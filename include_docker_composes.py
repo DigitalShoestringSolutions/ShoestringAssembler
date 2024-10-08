@@ -83,7 +83,7 @@ if len(sub_compose_files) > 0:
     
     start_path = solution_files.joinpath(repr("./start.sh"))
     print(start_path)
-    if not start_path.exists:
+    if not start_path.exists():
         
         # repr() returns a string in its printable format, i.e doesn’t resolve the escape sequences
         print("    Creating ./start.sh")
