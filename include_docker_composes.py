@@ -3,12 +3,7 @@
 # Creates a docker-compose.yml file in the solution files directory.
 # Detects docker-compose files in service modules and includes them in the master docker-compose file
 # does not use the recipe file directly, as some service modules may not have docker-compose elements (eg SetupLogging)
-
-# There are many approaches to the problem this is trying to solve, including:
-# Merging compose files
-# Extending compose files
-# Building containers separately (result of quick test: dependency service remains undefined)
-# Including compose files - this is simply the one I am trying first.
+#     and bespoke service modules using compose may be included with the solution (and hence not in the recipe)
 
 
 
