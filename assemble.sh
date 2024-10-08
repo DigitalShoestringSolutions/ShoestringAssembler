@@ -15,7 +15,7 @@ LOG_FILE=$SCRIPT_DIR_DIR/assemblerlog.txt
 
 # Run the Assembler!
 # Print the version of the Assembler being used
-echo "git log --oneline -1" 2>&1 | tee -a $LOG_FILE
+git -C $SCRIPT_DIR log --oneline -1 2>&1 | tee -a $LOG_FILE
 
 # Download Service Modules into <solutionfiles>/ServiceModules
 python3 $SCRIPT_DIR/SMDownloader.py 2>&1 | tee -a $LOG_FILE
