@@ -88,7 +88,7 @@ if len(sub_compose_files) > 0:
 
         # Open for exclusive creation. Fail if file already exists, as if block already checked.
         with open(start_path, 'x') as f:
-            f.write('CURRENT_UID="$(id -u)" docker-compose up')
+            f.write('CURRENT_UID="$(id -u)" docker compose up -d')
 
         # Set executable bit. Uses absolute file path.
         os.popen("chmod +x " + str(start_path))
