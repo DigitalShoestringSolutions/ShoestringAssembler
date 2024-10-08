@@ -81,7 +81,7 @@ if len(sub_compose_files) > 0:
 
     # If the solution is using compose, also create ./start.sh if not already present in the solution
     
-    start_path = solution_files.joinpath("./start.sh")
+    start_path = solution_files.joinpath("start.sh")
     print(start_path)
     if not start_path.exists():
         print("    Creating", start_path)
@@ -90,11 +90,11 @@ if len(sub_compose_files) > 0:
         with open(start_path, 'x') as f:
             f.write('CURRENT_UID="$(id -u)" docker-compose up')
 
-        # Set executable bit
-        os.popen("chmod=+x " + start_path)
+        # Set executable bit. Uses absolute file path.
+        os.popen("chmod +x " + str(start_path))
 
     else:
-        print("    ./start.sh already exists")
+        print("    start.sh already exists")
 
 
 print("## -----------------------------------------------------------------------")
