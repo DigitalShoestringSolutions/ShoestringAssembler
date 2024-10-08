@@ -12,6 +12,7 @@
 
 # standard imports
 from pathlib import Path
+import os
 
 # installed imports
 #none
@@ -56,12 +57,12 @@ for file in ServiceModulesDir.rglob('*'):
         print("    Including", rel_path, "in Solution docker-compose.yml")
         sub_compose_files.append(str(rel_path))
 
-## --------------------------------------------------------------------------------
+## -------------------------------------------------------------------------------
 
 
 
 
-## -- Create the master docker-compose.yml ----------------------------------------
+## -- Create the master docker-compose.yml and ./start.sh and ./stop.sh ----------
 #  --     iff there are service modules using docker 
 
 if len(sub_compose_files) > 0:
@@ -77,6 +78,26 @@ if len(sub_compose_files) > 0:
         master_compose_file.write('\n')
         master_compose_file.writelines(['networks:\n', '     internal:\n', '         name: shoestring-internal'])
 
+
+    # If the solution is using compose, also create ./start.sh if not already present in the solution
+    
+    start_path = solution_files.joinpath(repr("./start.sh"))
+    if not start_path.exists:
+        
+        # repr() returns a string in its printable format, i.e doesn’t resolve the escape sequences
+        print(repr("    Creating ./start.sh"))
+        
+        # Open for exclusive creation. Fail if file already exists, as if block already checked.
+        with open(start_path, 'x') as f:
+            f.write(repr('CURRENT_UID="$(id -u)" docker-compose up'))
+
+        # Set executable bit
+        os.popen(repr("chmod=+x ./start.sh"))
+    
+    else:
+        print(repr("    ./start.sh already exists"))
+
+    
 print("## -----------------------------------------------------------------------")
 
 ## --------------------------------------------------------------------------------
