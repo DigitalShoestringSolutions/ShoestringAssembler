@@ -3,7 +3,7 @@
 # Top level of Shoestring Assembler
 
 # Get location of this script
-SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+SCRIPT_DIR="$(dirname -- "$(realpath -- "$0")")"
 
 # Download Service Modules into <solutionfiles>/ServiceModules
 python3 $SCRIPT_DIR/SMDownloader.py 2>&1 | tee -a $SCRIPT_DIR/assemblerlog.txt
