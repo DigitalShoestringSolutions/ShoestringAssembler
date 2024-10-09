@@ -13,25 +13,32 @@ SCRIPT_DIR_DIR="$(dirname -- "$(realpath -- $SCRIPT_DIR)")"
 LOG_FILE=$SCRIPT_DIR_DIR/assemblerlog.txt
 
 
+# Wrap all commands to redirect IO. Closed in the last line. 
+{
+
+#
 echo "## --------------------------------------------------------------------------------"
 
 # Print the version of the Solution and Assembler being used. echo -n for no newline at end.
-echo -n "Solution hash: " 2>&1 | tee -a $LOG_FILE
-git rev-parse --short HEAD 2>&1 | tee -a $LOG_FILE
-echo -n "Assembler hash: " 2>&1 | tee -a $LOG_FILE
-git -C $SCRIPT_DIR rev-parse --short HEAD 2>&1 | tee -a $LOG_FILE
+echo -n "Solution hash: "
+git rev-parse --short HEAD
+echo -n "Assembler hash: "
+git -C $SCRIPT_DIR rev-parse --short HEAD
 
 echo "## --------------------------------------------------------------------------------"
 
 # Run the Assembler!
 # Download Service Modules into <solutionfiles>/ServiceModules
-python3 $SCRIPT_DIR/SMDownloader.py 2>&1 | tee -a $LOG_FILE
+python3 $SCRIPT_DIR/SMDownloader.py
 
 # Run init files in each service module, if present
-python3 $SCRIPT_DIR/init_SMs.py 2>&1 | tee -a $LOG_FILE
+python3 $SCRIPT_DIR/init_SMs.py
 
 # Link config files between UserConfig and each Service Module's config dirctory
-python3 $SCRIPT_DIR/link_config.py 2>&1 | tee -a $LOG_FILE
+python3 $SCRIPT_DIR/link_config.py
 
 # Generate a docker-compose file at <solutionfiles>
-python3 $SCRIPT_DIR/include_docker_composes.py 2>&1 | tee -a $LOG_FILE
+python3 $SCRIPT_DIR/include_docker_composes.py
+
+# Wrap all of the above, send stdout & stderr to local log file
+} 2>&1 | tee -a $LOG_FILE
