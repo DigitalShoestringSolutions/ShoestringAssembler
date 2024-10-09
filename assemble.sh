@@ -28,6 +28,7 @@ echo -n "Assembler hash: "
 git -C $SCRIPT_DIR rev-parse --short HEAD
 
 echo "## -----------------------------------------------------------------------"
+echo -e "\n" # print two blank lines to terminal / log. 
 
 
 
@@ -35,15 +36,15 @@ echo "## -----------------------------------------------------------------------
 # Assembler functional steps
 # Download Service Modules into <solutionfiles>/ServiceModules
 python3 $SCRIPT_DIR/SMDownloader.py
-echo ""
+echo -e "\n"
 
 # Run init files in each service module, if present
 python3 $SCRIPT_DIR/init_SMs.py
-echo ""
+echo -e "\n"
 
 # Link config files between UserConfig and each Service Module's config dirctory
 python3 $SCRIPT_DIR/link_config.py
-echo ""
+echo -e "\n"
 
 # Generate a docker-compose file at <solutionfiles>
 python3 $SCRIPT_DIR/include_docker_composes.py
