@@ -98,7 +98,7 @@ Multiples of the same Service Module are supported - the subdirectory name under
 
 During Assembly, status messages are printed to terminal. This includes what versions of Service Modules have been selected, where config files are being linked between UserConfig and ServiceModules, what `docker-compose` files have been detected etc.  
 These (`stdout&stderr`) are also saved to a local text file called `assemblerlog.txt`, which will appear alongside the clone.  
-Hence, if the Assembler is downloaded with [the template's `get_service_modules.sh`](https://github.com/DigitalShoestringSolutions/starter-solution-template/blob/feature/assembler/ServiceModules/Assembly/get_service_modules.sh) the file `assemblerlog.txt` will appear alongside `get_service_modules.sh`.
+Hence, if the Assembler is downloaded with [the template's `get_service_modules.sh`](https://github.com/DigitalShoestringSolutions/starter-solution-template/blob/feature/assembler/ServiceModules/Assembly/get_service_modules.sh) the file `assemblerlog.txt` will appear alongside `get_service_modules.sh` in `.../ServiceModules/Assembly/`.
 
 ## To try it out:
 
