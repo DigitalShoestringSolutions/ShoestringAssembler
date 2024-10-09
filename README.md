@@ -55,7 +55,7 @@ If for example the `UserConfig` dir has the following structure:
 
 ```bash
 ├── UserConfig/
-│   ├── Timeseries/
+│   ├── InfluxDB/
 │   │   └── telegraf.conf
 │   ├── Grafana/
 │   │   └── dashboards/
@@ -71,7 +71,7 @@ Then when ServiceModules is populated:
 
 ```bash
 ├── ServiceModules/
-│   ├── Timeseries/
+│   ├── InfluxDB/
 │   │   ├── config/
 │   │   │   └── telegraf.conf
 │   │   └── ...
@@ -91,8 +91,14 @@ Then when ServiceModules is populated:
 │   │   └── ...
 │   ├── ...
 ```
-Multiples of the same Service Module are supported - the subdirectory name under `UserConfig` must be incremented as above.
+Multiples of the same Service Module are supported - the subdirectory name under `UserConfig` must be incremented as above. This approach allows multiple instances of the same Service Module to be configured differently.
 
+
+## Logging
+
+During Assembly, status messages are printed to terminal. This includes what versions of Service Modules have been selected, where config files are being linked between UserConfig and ServiceModules, what `docker-compose` files have been detected etc.  
+These (`stdout&stderr`) are also saved to a local text file called `assemblerlog.txt`, which will appear alongside the clone.  
+Hence, if the Assembler is downloaded with [the template's `get_service_modules.sh`](https://github.com/DigitalShoestringSolutions/starter-solution-template/blob/feature/assembler/ServiceModules/Assembly/get_service_modules.sh) the file `assemblerlog.txt` will appear alongside `get_service_modules.sh` in `.../ServiceModules/Assembly/`.
 
 ## To try it out:
 
