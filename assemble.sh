@@ -35,12 +35,15 @@ echo "## -----------------------------------------------------------------------
 # Assembler functional steps
 # Download Service Modules into <solutionfiles>/ServiceModules
 python3 $SCRIPT_DIR/SMDownloader.py
+echo ""
 
 # Run init files in each service module, if present
 python3 $SCRIPT_DIR/init_SMs.py
+echo ""
 
 # Link config files between UserConfig and each Service Module's config dirctory
 python3 $SCRIPT_DIR/link_config.py
+echo ""
 
 # Generate a docker-compose file at <solutionfiles>
 python3 $SCRIPT_DIR/include_docker_composes.py
