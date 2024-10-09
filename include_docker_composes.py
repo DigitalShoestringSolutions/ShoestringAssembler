@@ -54,7 +54,7 @@ sub_compose_files = []
 for file in ServiceModulesDir.rglob('*'):
     if file.name in DOCKER_COMPOSE_FILE_NAMES:
         rel_path = file.relative_to(solution_files)
-        print("    Including", rel_path, "in Solution docker-compose.yml")
+        print("    Including", rel_path)
         sub_compose_files.append(str(rel_path))
 
 ## -------------------------------------------------------------------------------
@@ -93,7 +93,7 @@ if len(sub_compose_files) > 0:
             os.popen("chmod +x " + str(st_path))
 
         else:
-            print("    ", st_path, "already exists")
+            print("   ", st_path, "already exists")    # Only 3 leading spaces as print() inserts one between args
 
 print("## -----------------------------------------------------------------------")
 
