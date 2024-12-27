@@ -67,7 +67,7 @@ with solution_files.joinpath(Path(recipefilename)).open(mode='r') as recipefile:
 
         # split line into list of components
         line = line.split("=")
-        line[-1] = line[-1].split("\n")[0]     # Remove trailing newline from last item.
+        line[-1] = line[-1].split("\n")[0]      # Remove trailing newline from last item.
 
         # Associate names
         sm_base_name = line[0]
@@ -78,13 +78,14 @@ with solution_files.joinpath(Path(recipefilename)).open(mode='r') as recipefile:
         if sm_base_name in ServiceModuleURLs:
             url = ServiceModuleURLs[sm_base_name]
 
-            # Duplicate management
+            # Duplicate management: find a unique "instance name" for this line of the recipe
             sm_instance_name = sm_base_name # First try to use the base name as the instance name
             i = 1
-            while sm_instance_name in _downloaded_service_modules:
-                i += 1                                              # If instance name taken, increment count
-                sm_instance_name = sm_base_name + str(i)            # and try using name with count eg Sensing2
-            _downloaded_service_modules.append(sm_instance_name)    # record final instance name used
+            while sm_instance_name in _downloaded_service_modules:                              # Check against list of instance names already taken
+                i += 1                                                                          # If instance name taken, increment count
+                sm_instance_name = sm_base_name + str(i)                                        # and try using name with count eg Sensing2
+            _downloaded_service_modules.append(sm_instance_name)                                # record final instance name used
+            download_dir = str(solution_files.joinpath("ServiceModules/" + sm_instance_name))   # Directory to clone into
 
             # Version management
             # To remove the possibility of ending up with the wrong version downloaded,
@@ -145,16 +146,15 @@ with solution_files.joinpath(Path(recipefilename)).open(mode='r') as recipefile:
                 _download_hash = os.popen("git ls-remote " + url + " " + _download_version).read()[:7]
 
             # Download with git clone
-            download_to = str(solution_files.joinpath("ServiceModules/" + sm_instance_name))
             print()
             print("    Downloading", sm_instance_name, "version", _download_version, "(hash", _download_hash + ")", "from specifier", version_specifier)
             print("        from", url)
-            print("        to  ", download_to)
+            print("        to  ", download_dir)
 
             _download_command = "git clone --quiet " + url
             if _download_version is not None:                    # If branch specified in recipe
                 _download_command += " -b " + _download_version  # Insert into the clone command. Else omit.
-            _download_command += " " + download_to
+            _download_command += " " + download_dir
 
             os.system(_download_command)                        # Run the string concatenated above
 
