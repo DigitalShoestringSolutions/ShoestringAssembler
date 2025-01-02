@@ -183,10 +183,10 @@ with solution_files.joinpath(Path(recipefilename)).open(mode='r') as recipefile:
                     _post_update_hash = None # In case below line fails, don't let previously stored value persist.
                     _post_update_hash = os.popen("git -C " + instance_dir + " log --oneline -1").read()[:7]  # could also use rev parse head etc.
                     if _post_update_hash == _download_hash:
-                        print("    ", sm_instance_name, "has been sucessfully updated to", _post_update_hash)
+                        print("        " + sm_instance_name, "has been sucessfully updated to", _post_update_hash)
 
                     else:
-                        print("    ERROR: There was an issue during the checkout to", _download_hash + ".", sm_instance_name, "is still on hash", _post_update_hash)
+                        print("        ERROR: There was an issue during the checkout to", _download_hash + ".", sm_instance_name, "is still on hash", _post_update_hash)
 
         else:
             print("ERROR: no Servie Module URL defined for line in recipe", line)
