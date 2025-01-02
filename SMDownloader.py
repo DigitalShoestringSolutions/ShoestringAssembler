@@ -85,7 +85,7 @@ with solution_files.joinpath(Path(recipefilename)).open(mode='r') as recipefile:
                 i += 1                                                                          # If instance name taken, increment count
                 sm_instance_name = sm_base_name + str(i)                                        # and try using name with count eg Sensing2
             _downloaded_service_modules.append(sm_instance_name)                                # record final instance name used
-            download_dir = str(solution_files.joinpath("ServiceModules/" + sm_instance_name))   # Directory to clone into
+            instance_dir = str(solution_files.joinpath("ServiceModules/" + sm_instance_name))   # Directory to clone into
 
             # Version management
             # To remove the possibility of ending up with the wrong version downloaded,
@@ -142,27 +142,54 @@ with solution_files.joinpath(Path(recipefilename)).open(mode='r') as recipefile:
                             print("    ERROR: No suitable branch of", sm_base_name, "found for specifier", version_specifier, "Cancelling download of", sm_instance_name)
                             continue    # give up on this line of the recipe and move on to next
 
-                # Get the short commit hash from branch or tag name
+                # Get the short commit hash from branch or tag name. If no branches or tag match _download_Version, returns empty string
                 _download_hash = os.popen("git ls-remote " + url + " " + _download_version).read()[:7]
 
-            # Download with git clone
-            print()
-            print("    Downloading", sm_instance_name, "version", _download_version, "(hash", _download_hash + ")", "from specifier", version_specifier)
-            print("        from", url)
-            print("        to  ", download_dir)
+            
+            # Now that the target version has been identified, action this information
+            print() # in terminal and logs, give each recipe line a paragraph
 
-            _download_command = "git clone --quiet " + url
-            if _download_version is not None:                    # If branch specified in recipe
-                _download_command += " -b " + _download_version  # Insert into the clone command. Else omit.
-            _download_command += " " + download_dir
+            # If no such instance of the service module has been downloaded previously, clone a new one:
+            if not Path(instance_dir).exists():
+                print("    Downloading", sm_instance_name, "version", _download_version, "(hash", _download_hash + ")", "from specifier", version_specifier)
+                print("        from", url)
+                print("        to  ", instance_dir)
 
-            os.system(_download_command)                        # Run the string concatenated above
+                _download_command = "git clone --quiet " + url + " " + instance_dir
+                if _download_version is not None:                    # If branch specified in recipe
+                    _download_command += " -b " + _download_version  # Insert into the clone command. Else omit.
+                os.system(_download_command)                         # Run the string concatenated above
 
+            # If the service module instance clone already exists (likely by this script running previously), update that instance
+            else:
+                # Get information about existing clone
+                current_hash = os.popen("git -C " + instance_dir + " log --oneline -1").read()[:7]  # could also use rev parse head etc.
+                # Showing current tag is harder. git describe --exact-match --tags/--all is ok but not ideal (if no tags found, fatal message is insuppressible).
+                # tag display is not needed anyway when hashes are being compared. Only use is informing the user what the version being replaced was.
+                # Hence, do not attempt to display old tag.
+
+                if current_hash == _download_hash:
+                    print(sm_instance_name, "existing version", _download_version, "(hash", _download_hash + ")", "is already suitable for specifier", version_specifier)
+
+                else: # need to update
+                    print("    Updating", sm_instance_name, "from hash", current_hash, "to version", _download_version, "(hash", _download_hash + ")", "from specifier", version_specifier)
+                    # git checkout or git switch?
+                    # Need to stash changes eg replaced requirements files? No - lose them and relink from UserConfig. 
+                    #   Nothing should be changed in a SM outside of what is linked from UserConfig.
+                    # What will cause the checkout to abort? Possible hard reset required.
+                    os.system("git -C " + instance_dir + " checkout " + _download_version + " --quiet")
+
+                    # Confirm if the update was successful
+                    _post_update_hash = None # In case below line fails, don't let previously stored value persist.
+                    _post_update_hash = os.popen("git -C " + instance_dir + " log --oneline -1").read()[:7]  # could also use rev parse head etc.
+                    if _post_update_hash == _download_hash:
+                        print("    ", sm_instance_name, "has been sucessfully updated to", _post_update_hash)
+
+                    else:
+                        print("    ERROR: There was an issue during the checkout to", _download_hash + ".", sm_instance_name, "is still on hash", _post_update_hash)
 
         else:
-            print()
             print("ERROR: no Servie Module URL defined for line in recipe", line)
-            print()
 
 print("## -----------------------------------------------------------------------")
 
