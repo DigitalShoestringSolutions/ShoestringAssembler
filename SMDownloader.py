@@ -169,7 +169,7 @@ with solution_files.joinpath(Path(recipefilename)).open(mode='r') as recipefile:
                 # Hence, do not attempt to display old tag.
 
                 if current_hash == _download_hash:
-                    print(sm_instance_name, "existing version", _download_version, "(hash", _download_hash + ")", "is already suitable for specifier", version_specifier)
+                    print("    " + sm_instance_name, "existing version", _download_version, "(hash", _download_hash + ")", "is already suitable for specifier", version_specifier)
 
                 else: # need to update
                     print("    Updating", sm_instance_name, "from hash", current_hash, "to version", _download_version, "(hash", _download_hash + ")", "from specifier", version_specifier)
