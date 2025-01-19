@@ -1,4 +1,4 @@
-# init_SMs.py
+# init_modules.py
 
 # Permits Service Modules to request code to be run immediately after download, before compiling
 # eg SetupLogging would like setup_logging.sh to be run straight away, 
