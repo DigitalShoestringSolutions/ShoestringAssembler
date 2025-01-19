@@ -1,8 +1,8 @@
 # mirrordirector.py
 
-# Points to repositries of Shoestring Serivce Modules
+# Points to repositries of Shoestring Modules
 
-ServiceModuleURLs = {
+ModuleURLs = {
 
     # Infrastructure modules
     "Docker"            : "https://github.com/DigitalShoestringSolutions/Docker",
