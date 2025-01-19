@@ -39,7 +39,7 @@ python3 $SCRIPT_DIR/SMDownloader.py
 echo -e "\n"
 
 # Run init files in each service module, if present
-python3 $SCRIPT_DIR/init_SMs.py
+python3 $SCRIPT_DIR/init_modules.py
 echo -e "\n"
 
 # Link config files between UserConfig and each Service Module's config dirctory
