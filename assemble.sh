@@ -42,7 +42,7 @@ echo -e "\n"
 python3 $SCRIPT_DIR/init_modules.py
 echo -e "\n"
 
-# Link config files between UserConfig and each Module's config dirctory
+# Link config files between Config and each Module's config dirctory
 python3 $SCRIPT_DIR/link_config.py
 echo -e "\n"
 

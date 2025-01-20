@@ -48,13 +48,13 @@ When assembled, the Sensing Module will be cloned first into `Modules/Sensing` a
 ## Linking Config
 
 The Assembler can link config files shipped with the solution onto the Modules it downloads.  
-If the `UserConfig` contains the subdir `MyModule` and `MyModule` is sucessfully downloaded via `recipe.txt`, then the contents of `UserConfig/MyModule/` will be hard linked into `Modules/MyModule/config/`. 
+If the `Config` dir contains the subdir `MyModule` and `MyModule` is sucessfully downloaded via `recipe.txt`, then the contents of `Config/MyModule/` will be hard linked into `Modules/MyModule/config/`. 
 
 
-If for example the `UserConfig` dir has the following structure:
+If for example the `Config` dir has the following structure:
 
 ```bash
-├── UserConfig/
+├── Config/
 │   ├── InfluxDB/
 │   │   └── telegraf.conf
 │   ├── Grafana/
@@ -91,12 +91,12 @@ Then when Modules is populated:
 │   │   └── ...
 │   ├── ...
 ```
-Multiples of the same Module are supported - the subdirectory name under `UserConfig` must be incremented as above. This approach allows multiple instances of the same Module to be configured differently.
+Multiples of the same Module are supported - the subdirectory name under `Config` must be incremented as above. This approach allows multiple instances of the same Module to be configured differently.
 
 
 ## Logging
 
-During Assembly, status messages are printed to terminal. This includes what versions of Modules have been selected, where config files are being linked between UserConfig and Modules, what `docker-compose` files have been detected etc.  
+During Assembly, status messages are printed to terminal. This includes what versions of Modules have been selected, where config files are being linked between Config and Modules, what `docker-compose` files have been detected etc.  
 These (`stdout&stderr`) are also saved to a local text file called `assemblerlog.txt`, which will appear alongside the clone.  
 Hence, if the Assembler is downloaded with [the template's `get_modules.sh`](https://github.com/DigitalShoestringSolutions/starter-solution-template/blob/feature/assembler/Modules/Assembly/get_modules.sh) the file `assemblerlog.txt` will appear alongside `get_modules.sh` in `.../Modules/Assembly/`.
 

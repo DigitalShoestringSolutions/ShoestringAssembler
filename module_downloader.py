@@ -175,8 +175,8 @@ with solution_files.joinpath(Path(recipefilename)).open(mode='r') as recipefile:
                 else: # need to update
                     print("    Updating", module_instance_name, "from hash", current_hash, "to version", _download_version, "(hash", _download_hash + ")", "from specifier", version_specifier)
                     # git checkout or git switch?
-                    # Need to stash changes eg replaced requirements files? No - lose them and relink from UserConfig. 
-                    #   Nothing should be changed in a module outside of what is linked from UserConfig.
+                    # Need to stash changes eg replaced requirements files? No - lose them and relink from Config. 
+                    #   Nothing should be changed in a module outside of what is linked from Config.
                     # What will cause the checkout to abort? Possible hard reset required.
                     os.system("git -C " + instance_dir + " checkout " + _download_version + " --quiet")
 
