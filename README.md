@@ -15,31 +15,29 @@ As the workings of the assembler itself will need development, the assembler wil
 
 ## Writing a recipe
 The recipe for the solution is a text file called `recipe.txt` in the Solution's root directory.  
-Service Modules are added to the Solution by appending their name to the recipe. Each Service Module must have its own line in `recipe.txt`.    
-A list of supported Service Modules can be found in `mirrordirector.py`.
+Service Modules are added to the Solution by appending the url of their git repository (without a trailing /) to the recipe. Each Service Module must have its own line in `recipe.txt`.    
 
 ### Specifing versions of Service Modules
-A particular branch or tag of that Service Module's codebase can be specified by adding `=branchname` after the name of the Service Module. If this is not supplied, that Service Module's default branch will be used. Release tags can be specified in the same way.  
+A particular branch or tag of that Service Module's codebase can be specified by adding `=branchname` after the url of the Service Module. If this is not supplied, that Service Module's default branch will be used. Release tags can be specified in the same way.  
 
 Semantically versioned release tags can be partially specified. Where an exact branch or tag match is not available, the tag with the highest SemVer precedence that begins as specified will be used.  
 Note that prereleases (tags with dashed suffixes) will not be automatically selected.  
 
 An example of a valid `recipe.txt`:
 ```
-Grafana
-MQTTBroker=main
-Sensing=feature/recipe-lite
-Telemetry=v1.2.3
-SetupLogging=v1.6
+https://github.com/DigitalShoestringSolutions/sm_grafana_ui
+https://github.com/DigitalShoestringSolutions/sm_mqtt_broker=main
+https://github.com/DigitalShoestringSolutions/sm_SensingDC=feature/recipe-lite
+https://github.com/DigitalShoestringSolutions/SetupLogging=v1.6
 ```
-Assuming the exact tag `v1.2.3` exists for Telemetry, this will be used.  
+
 Assuming the exact tag `v1.6` does not exist for SetupLogging, `v1.6.2` would be selected over `v1.6.1`, but `v1.6.3-rc4` would be ignored.
 
 ### Multiple of the same Service Module
 Multiple instances of the same Service Module are supported. Simply duplicate the lines in the recipe:
 ```
-Sensing=feature/recipe-lite
-Sensing=feature/recipe-lite
+https://github.com/DigitalShoestringSolutions/sm_SensingDC=feature/recipe-lite
+https://github.com/DigitalShoestringSolutions/sm_SensingDC=feature/recipe-lite
 ```
 This will create two Sensing Service Modules in your Solution. They can be on the same or different branches/tags. 
 When assembled, the Sensing Service Module will be cloned first into `ServiceModules/Sensing` and then also into `ServiceModules/Sensing2`
@@ -55,15 +53,15 @@ If for example the `UserConfig` dir has the following structure:
 
 ```bash
 ├── UserConfig/
-│   ├── InfluxDB/
+│   ├── sm_timeseries_db/
 │   │   └── telegraf.conf
-│   ├── Grafana/
+│   ├── sm_grafana_ui/
 │   │   └── dashboards/
 │   │       │── dashboard1.json
 │   │       └── dashboard2.json
-│   ├── Sensing
+│   ├── sm_SensingDC
 │   │   └── main.py
-│   └── Sensing2
+│   └── sm_SensingDC2
 │       └── main.py
 ...
 ```
@@ -71,21 +69,21 @@ Then when ServiceModules is populated:
 
 ```bash
 ├── ServiceModules/
-│   ├── InfluxDB/
+│   ├── sm_timeseries_db/
 │   │   ├── config/
 │   │   │   └── telegraf.conf
 │   │   └── ...
-│   ├── Grafana
+│   ├── sm_grafana_ui
 │   │   ├── config/
 │   │   │   └── dashboards/
 │   │   │       │── dashboard1.json
 │   │   │       └── dashboard2.json
 │   │   └── ...
-│   ├── Sensing
+│   ├── sm_SensingDC
 │   │   ├── config/
 │   │   │    └── main.py
 │   │   └── ...
-│   ├── Sensing2
+│   ├── sm_SensingDC2
 │   │   ├── config/
 │   │   │    └── main.py
 │   │   └── ...
