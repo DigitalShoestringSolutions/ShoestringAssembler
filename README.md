@@ -1,3 +1,5 @@
+This branch (`feature/no-mirrordirector`) explores not using names for modules and identifying them by their URL only. I don't think it's a good idea nor intend to merge it, but wanted to demonstrate the consequences of that approach. 
+
 # A deployment tool for Shoestring Solutions
 
 ## About
