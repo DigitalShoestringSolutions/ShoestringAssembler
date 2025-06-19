@@ -34,19 +34,19 @@ echo -e "\n" # print two blank lines to terminal / log.
 
 
 # Assembler functional steps
-# Download Service Modules into <solutionfiles>/ServiceModules
-python3 $SCRIPT_DIR/SMDownloader.py
+# Download Modules into <solutionfiles>/Modules
+python3 $SCRIPT_DIR/module_downloader.py
 echo -e "\n"
 
-# Run init files in each service module, if present
-python3 $SCRIPT_DIR/init_SMs.py
+# Run init files in each module, if present
+python3 $SCRIPT_DIR/init_modules.py
 echo -e "\n"
 
-# Link config files between UserConfig and each Service Module's config dirctory
+# Link config files between Config and each Module's config dirctory
 python3 $SCRIPT_DIR/link_config.py
 echo -e "\n"
 
-# Generate a docker-compose file at <solutionfiles>
+# Generate a docker-compose file at <solutionfiles>, if any of the modules use compose.
 python3 $SCRIPT_DIR/include_docker_composes.py
 
 

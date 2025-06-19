@@ -1,6 +1,6 @@
-# SMDownloader.py
+# module_downloader.py
 
-# Given a recipe, downloads Service Modules according to mirrordirector.ServiceModuleURLs
+# Given a recipe, downloads Shoestring Modules according to mirrordirector.ModuleURLs
 
 ## -- Imports ---------------------------------------------------------------------
 
@@ -12,7 +12,7 @@ from pathlib import Path
 #none
 
 # Local imports
-from mirrordirector import ServiceModuleURLs
+from mirrordirector import ModuleURLs
 
 ## --------------------------------------------------------------------------------
 
@@ -24,7 +24,7 @@ from mirrordirector import ServiceModuleURLs
 recipefilename = "recipe.txt"
 
 # Define the solution files folder as 3 levels above this script.
-# Typically the stack will be <solution_files>/ServiceModules/Assembly/ShoestringAssembler/SMDownloader.py
+# Typically the stack will be <solution_files>/Modules/Assembly/ShoestringAssembler/module_downloader.py
 solution_files = Path(__file__).parents[3]
 
 ## --------------------------------------------------------------------------------
@@ -35,10 +35,10 @@ solution_files = Path(__file__).parents[3]
 ## -- Run -------------------------------------------------------------------------
 
 print("## -----------------------------------------------------------------------")
-print("Downloading Service Modules...")
+print("Downloading Modules...")
 
-# Keep a list of the instance names of service modules that have been downloaded, to manage duplicates.
-_downloaded_service_modules = []
+# Keep a list of the instance names of modules that have been downloaded, to manage duplicates.
+_downloaded_modules = []
 
 # Suppress messages about being in 'detached HEAD' state when switching to a tag
 os.system("git config --global advice.detachedHead false")
@@ -49,9 +49,9 @@ with solution_files.joinpath(Path(recipefilename)).open(mode='r') as recipefile:
     for line in recipefile:
 
         # Force reset - lest any be set in a previous loop, fail to update and are reused.
-        sm_base_name = None
+        module_base_name = None
         url = None
-        version_specifier = None      # Also supports not supplying a branch/tag name and using SM repo default.
+        version_specifier = None      # Also supports not supplying a branch/tag name and using module repo default.
         _version_specifier_search = None
         _available_branches = None
         _available_long_heads = None
@@ -70,22 +70,22 @@ with solution_files.joinpath(Path(recipefilename)).open(mode='r') as recipefile:
         line[-1] = line[-1].split("\n")[0]      # Remove trailing newline from last item.
 
         # Associate names
-        sm_base_name = line[0]
+        module_base_name = line[0]
         if len(line) > 1:               # If an = was in the recipe line, try to use what follows as a branch/tag name,
             version_specifier = line[1] # else the default value of None will persist
 
         # Attempt to action recipe line
-        if sm_base_name in ServiceModuleURLs:
-            url = ServiceModuleURLs[sm_base_name]
+        if module_base_name in ModuleURLs:
+            url = ModuleURLs[module_base_name]
 
             # Duplicate management: find a unique "instance name" for this line of the recipe
-            sm_instance_name = sm_base_name # First try to use the base name as the instance name
+            module_instance_name = module_base_name # First try to use the base name as the instance name
             i = 1
-            while sm_instance_name in _downloaded_service_modules:                              # Check against list of instance names already taken
+            while module_instance_name in _downloaded_modules:                                  # Check against list of instance names already taken
                 i += 1                                                                          # If instance name taken, increment count
-                sm_instance_name = sm_base_name + str(i)                                        # and try using name with count eg Sensing2
-            _downloaded_service_modules.append(sm_instance_name)                                # record final instance name used
-            instance_dir = str(solution_files.joinpath("ServiceModules/" + sm_instance_name))   # Directory to clone into
+                module_instance_name = module_base_name + str(i)                                # and try using name with count eg Sensing2
+            _downloaded_modules.append(module_instance_name)                                    # record final instance name used
+            instance_dir = str(solution_files.joinpath("Modules/" + module_instance_name))      # Directory to clone into
 
             # Version management
             # To remove the possibility of ending up with the wrong version downloaded,
@@ -134,12 +134,13 @@ with solution_files.joinpath(Path(recipefilename)).open(mode='r') as recipefile:
                                 if '-' in _suffix:  # if there is a dash in the unspecified part of the tag
                                     continue        # skip and continue search
 
+                                # The first tag tested which starts as required AND does not contain a dash after the search specifier, is the target. Save it and stop searching. 
                                 _download_version = tag
                                 break
 
                         # if _download_version is still None, a suitable branch/tag could not be found.
                         if _download_version is None: # not acceptable here as within `if branch_specifier is not None:` far above.
-                            print("    ERROR: No suitable branch of", sm_base_name, "found for specifier", version_specifier, "Cancelling download of", sm_instance_name)
+                            print("    ERROR: No suitable branch of", module_base_name, "found for specifier", version_specifier, "Cancelling download of", module_instance_name)
                             continue    # give up on this line of the recipe and move on to next
 
                 # Get the short commit hash from branch or tag name. If no branches or tag match _download_Version, returns empty string
@@ -149,9 +150,9 @@ with solution_files.joinpath(Path(recipefilename)).open(mode='r') as recipefile:
             # Now that the target version has been identified, action this information
             print() # in terminal and logs, give each recipe line a paragraph
 
-            # If no such instance of the service module has been downloaded previously, clone a new one:
+            # If no such instance of the module has been downloaded previously, clone a new one:
             if not Path(instance_dir).exists():
-                print("    Downloading", sm_instance_name, "version", _download_version, "(hash", _download_hash + ")", "from specifier", version_specifier)
+                print("    Downloading", module_instance_name, "version", _download_version, "(hash", _download_hash + ")", "from specifier", version_specifier)
                 print("        from", url)
                 print("        to  ", instance_dir)
 
@@ -160,7 +161,7 @@ with solution_files.joinpath(Path(recipefilename)).open(mode='r') as recipefile:
                     _download_command += " -b " + _download_version  # Insert into the clone command. Else omit.
                 os.system(_download_command)                         # Run the string concatenated above
 
-            # If the service module instance clone already exists (likely by this script running previously), update that instance
+            # If the module instance clone already exists (likely by this script running previously), update that instance
             else:
                 # Get information about existing clone
                 current_hash = os.popen("git -C " + instance_dir + " log --oneline -1").read()[:7]  # could also use rev parse head etc.
@@ -169,13 +170,13 @@ with solution_files.joinpath(Path(recipefilename)).open(mode='r') as recipefile:
                 # Hence, do not attempt to display old tag.
 
                 if current_hash == _download_hash:
-                    print("    " + sm_instance_name, "existing version", _download_version, "(hash", _download_hash + ")", "is already suitable for specifier", version_specifier)
+                    print("    " + module_instance_name, "existing version", _download_version, "(hash", _download_hash + ")", "is already suitable for specifier", version_specifier)
 
                 else: # need to update
-                    print("    Updating", sm_instance_name, "from hash", current_hash, "to version", _download_version, "(hash", _download_hash + ")", "from specifier", version_specifier)
+                    print("    Updating", module_instance_name, "from hash", current_hash, "to version", _download_version, "(hash", _download_hash + ")", "from specifier", version_specifier)
                     # git checkout or git switch?
-                    # Need to stash changes eg replaced requirements files? No - lose them and relink from UserConfig. 
-                    #   Nothing should be changed in a SM outside of what is linked from UserConfig.
+                    # Need to stash changes eg replaced requirements files? No - lose them and relink from Config. 
+                    #   Nothing should be changed in a module outside of what is linked from Config.
                     # What will cause the checkout to abort? Possible hard reset required.
                     os.system("git -C " + instance_dir + " checkout " + _download_version + " --quiet")
 
@@ -183,13 +184,13 @@ with solution_files.joinpath(Path(recipefilename)).open(mode='r') as recipefile:
                     _post_update_hash = None # In case below line fails, don't let previously stored value persist.
                     _post_update_hash = os.popen("git -C " + instance_dir + " log --oneline -1").read()[:7]  # could also use rev parse head etc.
                     if _post_update_hash == _download_hash:
-                        print("        " + sm_instance_name, "has been sucessfully updated to", _post_update_hash)
+                        print("        " + module_instance_name, "has been sucessfully updated to", _post_update_hash)
 
                     else:
-                        print("        ERROR: There was an issue during the checkout to", _download_hash + ".", sm_instance_name, "is still on hash", _post_update_hash)
+                        print("        ERROR: There was an issue during the checkout to", _download_hash + ".", module_instance_name, "is still on hash", _post_update_hash)
 
         else:
-            print("ERROR: no Servie Module URL defined for line in recipe", line)
+            print("ERROR: no Module URL defined for line in recipe", line)
 
 print("## -----------------------------------------------------------------------")
 
